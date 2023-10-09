@@ -46,6 +46,27 @@ public class Parser {
             case '<': addToken(matchNextChar('=') ? LEQ : LTHAN); break;
             case '>': addToken(matchNextChar('=') ? GEQ : GTHAN); break;
 
+            case '/':
+                if (matchNextChar('/')) {
+                    // check if next char is '/'; '//' indicates start of comment
+                    // just continue advancing until end of line
+                    while (peek() != '\n' && !isAtEnd()) {
+                        advance();
+                    }
+                } else {
+                    addToken(SLASH);
+                }
+                break;
+
+            case ' ':
+            case '\r':
+            case '\t':
+                break;
+
+            case '\n':
+                lineNumber++;
+                break;
+
             default:
                 PL.error(lineNumber, "Unexpected character.");
                 break;
@@ -59,6 +80,14 @@ public class Parser {
 
         current++;
         return true;
+    }
+
+    private char peek() {
+        // this method peeks and advance at the same time
+        if (isAtEnd()) {
+            return '\0';
+        }
+        return source.charAt(current);
     }
 
     private boolean isAtEnd() {
