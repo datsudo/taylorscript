@@ -41,10 +41,24 @@ public class Parser {
             case '.': addToken(DOT      ); break;
             case ';': addToken(SEMICOLON); break;
 
+            case '!': addToken(matchNextChar('=') ? BEQ : BANG ); break;
+            case '=': addToken(matchNextChar('=') ? EEQ : EQUAL); break;
+            case '<': addToken(matchNextChar('=') ? LEQ : LTHAN); break;
+            case '>': addToken(matchNextChar('=') ? GEQ : GTHAN); break;
+
             default:
                 PL.error(lineNumber, "Unexpected character.");
                 break;
         }
+    }
+
+    private boolean matchNextChar(char expected) {
+        // this method peeks and advance at the same time
+        if (isAtEnd()) return false;
+        if (source.charAt(current) != expected) return false;
+
+        current++;
+        return true;
     }
 
     private boolean isAtEnd() {
