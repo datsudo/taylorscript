@@ -67,10 +67,31 @@ public class Parser {
                 lineNumber++;
                 break;
 
+            case '"': string(); break;
+
             default:
                 PL.error(lineNumber, "Unexpected character.");
                 break;
         }
+    }
+
+    private void string() {
+        while (peek() != '"' && !isAtEnd()) {
+            if (peek() == '\n') {
+                lineNumber++;
+            }
+            advance();
+        }
+
+        if (isAtEnd()) {
+            PL.error(lineNumber, "Unterminated string.");
+            return;
+        }
+        advance();
+
+        // get the string except the surrounding quotes
+        String value = source.substring(start + 1, current - 1);
+        addToken(STRING, value);
     }
 
     private boolean matchNextChar(char expected) {
