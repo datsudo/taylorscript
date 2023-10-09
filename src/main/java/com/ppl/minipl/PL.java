@@ -36,7 +36,7 @@ public class PL {
         BufferedReader reader = new BufferedReader(input);
 
         for (;;) {
-            System.out.println("[ IN] << ");
+            System.out.print("[ IN] << ");
             String line = reader.readLine();
             if (line == null) {
                 break;
