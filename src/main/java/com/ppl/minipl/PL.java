@@ -24,6 +24,10 @@ public class PL {
     private static void runFile(String filePath) throws IOException {
         byte[] bytes = Files.readAllBytes(Paths.get(filePath));
         run(new String(bytes, Charset.defaultCharset()));
+
+        if (hadError) {
+            System.exit(65);
+        }
     }
 
     private static void runPrompt() throws IOException {
@@ -37,6 +41,7 @@ public class PL {
                 break;
             }
             run(line);
+            hadError = false;
         }
     }
 
