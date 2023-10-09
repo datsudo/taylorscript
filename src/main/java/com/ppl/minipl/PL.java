@@ -8,6 +8,8 @@ import java.nio.file.Files;
 import java.util.List;
 
 public class PL {
+    static boolean hadError = false;
+
     public static void main(String[] args) throws IOException {
         if (args.length > 1) {
             System.out.println("USAGE: PL [script]");
@@ -45,5 +47,14 @@ public class PL {
         for (Token token: tokens) {
             System.out.println(token);
         }
+    }
+
+    static void error(int lineNumber, String message) {
+        report(lineNumber, "", message);
+    }
+
+    private static void report(int lineNumber, String where, String message) {
+        System.err.println("[LINE " + line + "] Error" + where + ": " + message);
+        hadError = true;
     }
 }
