@@ -1,7 +1,9 @@
 package com.ppl.minipl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.ppl.minipl.TokenType.*;
 
@@ -11,6 +13,29 @@ public class Parser {
     private int start = 0;
     private int current = 0;
     private int lineNumber = 1;
+    private static final Map<String, TokenType> keywords;
+
+    static {
+        keywords = new HashMap<>();
+        keywords.put("paki", PAKI);
+        keywords.put("po", PO);
+        keywords.put("class", CLASS);
+        keywords.put("func", FUNC);
+        keywords.put("assign", ASSIGN);
+        keywords.put("if", IF);
+        keywords.put("else", ELSE);
+        keywords.put("for", FOR);
+        keywords.put("while", WHILE);
+        keywords.put("and", AND);
+        keywords.put("or", OR);
+        keywords.put("nil", NIL);
+        keywords.put("true", TRUE);
+        keywords.put("false", FALSE);
+        keywords.put("print", PRINT);
+        keywords.put("return", RETURN);
+        keywords.put("super", SUPER);
+        keywords.put("this", THIS);
+    }
 
     Parser(String source) {
         this.source = source;
@@ -72,11 +97,25 @@ public class Parser {
             default:
                 if (isDigit(c)) {
                     number();
+                } else if (isAlpha(c)) {
+                    identifier();
                 } else {
                     PL.error(lineNumber, "Unexpected character.");
                 }
                 break;
         }
+    }
+
+    private void identifier() {
+        while (isAlphaNumeric(peek())) {
+            advance();
+        }
+        String text = source.substring(start, current);
+        TokenType type = keywords.get(text);
+        if (type == null) {
+            type = IDENT;
+        }
+        addToken(type);
     }
 
     private void number() {
@@ -136,6 +175,16 @@ public class Parser {
             return '\0';
         }
         return source.charAt(current + 1);
+    }
+
+    private boolean isAlpha(char c) {
+        return (c >= 'a' && c <= 'z') ||
+               (c >= 'A' && c <= 'Z') ||
+                c == '_';
+    }
+
+    private boolean isAlphaNumeric(char c) {
+        return isAlpha(c) || isDigit(c);
     }
 
     private boolean isDigit(char c) {
