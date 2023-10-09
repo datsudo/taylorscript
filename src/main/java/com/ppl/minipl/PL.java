@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class PL {
@@ -59,7 +60,7 @@ public class PL {
     }
 
     private static void report(int lineNumber, String where, String message) {
-        System.err.println("[LINE " + line + "] Error" + where + ": " + message);
+        System.err.println("[LINE " + lineNumber + "] Error" + where + ": " + message);
         hadError = true;
     }
 }
