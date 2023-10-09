@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.util.List;
 
 public class PL {
     public static void main(String[] args) throws IOException {
@@ -34,6 +35,15 @@ public class PL {
                 break;
             }
             run(line);
+        }
+    }
+
+    private static void run(String source) {
+        Parser parser = new Parser(source);
+        List<Token> tokens = parser.parseTokens();
+
+        for (Token token: tokens) {
+            System.out.println(token);
         }
     }
 }
