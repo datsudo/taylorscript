@@ -7,7 +7,7 @@ import java.util.Map;
 
 import static com.ppl.minipl.TokenType.*;
 
-public class Parser {
+public class Lexer {
     private final String source;
     private final List<Token> tokens = new ArrayList<>();
     private int start = 0;
@@ -37,21 +37,21 @@ public class Parser {
         keywords.put("this", THIS);
     }
 
-    Parser(String source) {
+    Lexer(String source) {
         this.source = source;
     }
 
-    List<Token> parseTokens() {
+    List<Token> scanTokens() {
         while (!isAtEnd()) {
             start = current;
-            parseToken();
+            scanToken();
         }
 
         tokens.add(new Token(EOF, "", null, lineNumber));
         return tokens;
     }
 
-    private void parseToken() {
+    private void scanToken() {
         // parse individual token
         char c = advance();
         switch (c) {

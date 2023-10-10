@@ -47,8 +47,8 @@ public class PL {
     }
 
     private static void run(String source) {
-        Parser parser = new Parser(source);
-        List<Token> tokens = parser.parseTokens();
+        Lexer lexer = new Lexer(source);
+        List<Token> tokens = lexer.scanTokens();
 
         for (Token token: tokens) {
             System.out.println(token);
