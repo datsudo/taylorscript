@@ -62,6 +62,7 @@ public class Lexer {
             case '[': addToken(LBRACKET ); break;
             case ']': addToken(RBRACKET ); break;
             case '+': addToken(PLUS     ); break;
+            case '/': addToken(SLASH    ); break;
             case '*': addToken(STAR     ); break;
             case ',': addToken(COMMA    ); break;
             case '.': addToken(DOT      ); break;
@@ -72,15 +73,14 @@ public class Lexer {
             case '<': addToken(matchNextChar('=') ? LEQ : LTHAN); break;
             case '>': addToken(matchNextChar('=') ? GEQ : GTHAN); break;
 
-            case '/':
-                if (matchNextChar('/')) {
-                    // check if next char is '/'; '//' indicates start of comment
-                    // just continue advancing until end of line
+            case '-':
+                if (matchNextChar('-')) {
+                    // check if next char is '*'; '-*' indicates start of comment
                     while (peek() != '\n' && !isAtEnd()) {
                         advance();
                     }
                 } else {
-                    addToken(SLASH);
+                    addToken(MINUS);
                 }
                 break;
 
