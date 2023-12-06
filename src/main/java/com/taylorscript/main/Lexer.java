@@ -63,7 +63,6 @@ public class Lexer {
             case ']': addToken(RBRACKET ); break;
             case '+': addToken(PLUS     ); break;
             case '/': addToken(SLASH    ); break;
-            case '*': addToken(STAR     ); break;
             case ',': addToken(COMMA    ); break;
             case '.': addToken(DOT      ); break;
             case ';': addToken(SEMICOLON); break;
@@ -74,15 +73,27 @@ public class Lexer {
             case '>': addToken(matchNextChar('=') ? GEQ : GTHAN); break;
 
             case '-':
-                if (matchNextChar('-')) {
-                    // check if next char is '*'; '-*' indicates start of comment
-                    while (peek() != '\n' && !isAtEnd()) {
+                if (matchNextChar('-'))
+                    // check if next char is '-'; '--' indicates start of comment
+                    while (peek() != '\n' && !isAtEnd()) advance();
+                else if (matchNextChar('*')) {
+                    // '-*' starts a multiline comment and ends with '*-'
+                    boolean isInComment = true;
+                    while (isInComment) {
+                        if (peek() == '\n') this.lineNumber++;
+                        if (peek() == '*' && peekNext() == '-') {
+                            advance(); isInComment = false;
+                        }
+                        if (peek() == '\0') {
+                            TaylorScript.error(lineNumber, "Unterminated multiline comment");
+                            break;
+                        }
                         advance();
                     }
-                } else {
-                    addToken(MINUS);
-                }
+                } else addToken(MINUS);
                 break;
+
+            case '*': addToken(STAR); break;
 
             case ' ':
             case '\r':
@@ -164,7 +175,7 @@ public class Lexer {
     }
 
     private char peek() {
-        // this method peeks and advance at the same time
+        // like advance() but doesn't consume character
         if (isAtEnd()) {
             return '\0';
         }
