@@ -17,24 +17,24 @@ public class Lexer {
 
     static {
         keywords = new HashMap<>();
-        keywords.put("paki", PAKI);
-        keywords.put("po", PO);
-        keywords.put("class", CLASS);
-        keywords.put("func", FUNC);
-        keywords.put("assign", ASSIGN);
-        keywords.put("if", IF);
-        keywords.put("else", ELSE);
-        keywords.put("for", FOR);
-        keywords.put("while", WHILE);
-        keywords.put("and", AND);
-        keywords.put("or", OR);
-        keywords.put("nil", NIL);
-        keywords.put("true", TRUE);
-        keywords.put("false", FALSE);
-        keywords.put("print", PRINT);
-        keywords.put("return", RETURN);
-        keywords.put("super", SUPER);
-        keywords.put("this", THIS);
+        keywords.put("Define", FUNC);
+        keywords.put("Mine", INPUT);
+        keywords.put("When", IF);
+        keywords.put("Thats", ELSE);
+        keywords.put("ThatsWhen", ELIF);
+        keywords.put("AllTooWhile", LOOP);
+        keywords.put("BlankSpace", NIL);
+        keywords.put("The1", TRUE);
+        keywords.put("The0", FALSE);
+        keywords.put("SpeakNow", PRINT);
+        keywords.put("BackToDecember", RETURN);
+        keywords.put("Evermore", CONTINUE);
+        keywords.put("Clear", CLEAR);
+        keywords.put("Dear", SWITCH);
+        keywords.put("John", CASE);
+        keywords.put("Closure", DEFAULT);
+        keywords.put("Getaway", TRY);
+        keywords.put("Car", CATCH);
     }
 
     Lexer(String source) {
@@ -59,7 +59,8 @@ public class Lexer {
             case ')': addToken(RPAREN   ); break;
             case '{': addToken(LBRACE   ); break;
             case '}': addToken(RBRACE   ); break;
-            case '-': addToken(MINUS    ); break;
+            case '[': addToken(LBRACKET ); break;
+            case ']': addToken(RBRACKET ); break;
             case '+': addToken(PLUS     ); break;
             case '*': addToken(STAR     ); break;
             case ',': addToken(COMMA    ); break;

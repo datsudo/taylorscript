@@ -3,6 +3,7 @@ package com.taylorscript.main;
 enum TokenType {
     // single-char tokens
     LPAREN, RPAREN, LBRACE, RBRACE,
+    LBRACKET, RBRACKET,
     MINUS, PLUS, SLASH, STAR, PCENT,
     COMMA, DOT, SEMICOLON,
 
@@ -11,16 +12,21 @@ enum TokenType {
     EQUAL, EEQ,
     GTHAN, GEQ,
     LTHAN, LEQ,
+    AND, OR,
 
     // literals
     IDENT, STRING, NUMBER,
 
     // keywords
-    PAKI, PO,                   // honorifics
-    CLASS, FUNC, ASSIGN,        // abstraction
-    IF, ELSE, FOR, WHILE,       // control
-    AND, OR, NIL, TRUE, FALSE,  // logic
-    PRINT, RETURN, SUPER, THIS,
+    FUNC,  // abstraction
+    NIL, TRUE, FALSE,  // logic
+
+    LOOP, CONTINUE,  // combined for-while loop
+    IF, ELSE, ELIF,  // control
+    TRY, CATCH,  // exception handling
+    SWITCH, CASE, DEFAULT,  // switch-case
+    PRINT, BREAK, RETURN, CLEAR,  // etc
+    INPUT,
 
     EOF
 }
