@@ -1,4 +1,4 @@
-package com.ppl.minipl;
+package com.taylorscript.main;
 
 class AstPrinter implements Expr.Visitor<String> {
     String print(Expr expr) {

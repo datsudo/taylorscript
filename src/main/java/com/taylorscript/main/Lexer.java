@@ -1,11 +1,11 @@
-package com.ppl.minipl;
+package com.taylorscript.main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.ppl.minipl.TokenType.*;
+import static com.taylorscript.main.TokenType.*;
 
 public class Lexer {
     private final String source;
@@ -100,7 +100,7 @@ public class Lexer {
                 } else if (isAlpha(c)) {
                     identifier();
                 } else {
-                    PL.error(lineNumber, "Unexpected character.");
+                    TaylorScript.error(lineNumber, "Unexpected character.");
                 }
                 break;
         }
@@ -143,7 +143,7 @@ public class Lexer {
         }
 
         if (isAtEnd()) {
-            PL.error(lineNumber, "Unterminated string.");
+            TaylorScript.error(lineNumber, "Unterminated string.");
             return;
         }
         advance();

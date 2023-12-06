@@ -1,4 +1,4 @@
-package com.ppl.minipl;
+package com.taylorscript.main;
 
 class Token {
     final TokenType type;
