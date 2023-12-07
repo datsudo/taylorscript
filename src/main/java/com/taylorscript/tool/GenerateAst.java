@@ -25,7 +25,7 @@ public class GenerateAst {
         String path = outputDir + "/" + baseName + ".java";
         PrintWriter writer = new PrintWriter(path, StandardCharsets.UTF_8);
 
-        writer.println("package com.ppl.minipl;");
+        writer.println("package com.taylorscript.main;");
         writer.println();
         writer.println("import java.util.List;");
         writer.println();
