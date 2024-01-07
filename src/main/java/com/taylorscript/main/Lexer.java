@@ -154,13 +154,7 @@ public class Lexer {
     }
 
     private void string() {
-        while (peek() != '"' && !isAtEnd()) {
-            if (peek() == '\n') {
-                lineNumber++;
-            }
-            advance();
-        }
-
+        consumeString();
         if (isAtEnd()) {
             TaylorScript.error(lineNumber, "Unterminated string.");
             return;
@@ -170,6 +164,15 @@ public class Lexer {
         // get the string except the surrounding quotes
         String value = source.substring(start + 1, current - 1);
         addToken(STRING, value);
+    }
+
+    private void consumeString() {
+        while (peek() != '"' && !isAtEnd()) {
+            if (peek() == '\n') {
+                lineNumber++;
+            }
+            advance();
+        }
     }
 
     private boolean matchNextChar(char expected) {
