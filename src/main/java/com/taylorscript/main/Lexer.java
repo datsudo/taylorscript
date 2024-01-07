@@ -108,6 +108,7 @@ public class Lexer {
 
             default:
                 if (isDigit(c)) number();
+                else if (isTailorCall()) System.out.println("TAILOR NICE");
                 else if (isAlpha(c)) identifier();
                 else TaylorScript.error(lineNumber, "Unexpected character.");
                 break;
@@ -149,6 +150,9 @@ public class Lexer {
             if (peek() != "Tailor".charAt(t)) return false;
             advance();
             t++;
+        }
+        if (isAtEnd() || (peekNext() != '"' && source.charAt(current) != '[')) {
+            TaylorScript.error(lineNumber, "Tailor keyword cannot be used as identifier.");
         }
         return true;
     }
