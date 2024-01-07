@@ -1,5 +1,9 @@
 package com.taylorscript.main;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,12 +12,17 @@ import java.util.Map;
 import static com.taylorscript.main.TokenType.*;
 
 public class Lexer {
-    private final String source;
+    private String source;
     private final List<Token> tokens = new ArrayList<>();
     private int start = 0;
     private int current = 0;
     private int lineNumber = 1;
+    private int prevStart;
+    private int prevCurrent;
+    private int prevLineNumber;
+    private String prevSource;
     private static final Map<String, TokenType> keywords;
+    private boolean isInTailorCall = false;
 
     static {
         keywords = new HashMap<>();
@@ -41,7 +50,7 @@ public class Lexer {
         this.source = source;
     }
 
-    List<Token> scanTokens() {
+    List<Token> scanTokens() throws IOException {
         while (!isAtEnd()) {
             start = current;
             scanToken();
@@ -51,7 +60,7 @@ public class Lexer {
         return tokens;
     }
 
-    private void scanToken() {
+    private void scanToken() throws IOException {
         // parse individual token
         char c = advance();
         switch (c) {
@@ -108,7 +117,10 @@ public class Lexer {
 
             default:
                 if (isDigit(c)) number();
-                else if (isTailorCall()) System.out.println("TAILOR NICE");
+                else if (isTailorCall()) {
+                    isInTailorCall = true;
+                    advance();
+                }
                 else if (isAlpha(c)) identifier();
                 else TaylorScript.error(lineNumber, "Unexpected character.");
                 break;
@@ -157,7 +169,22 @@ public class Lexer {
         return true;
     }
 
-    private void string() {
+    private void parseTailorFile(String tailorFilePath) throws IOException {
+        byte[] bytes = Files.readAllBytes(Paths.get(tailorFilePath + ".lor"));
+        prevSource = source;
+        prevStart = start;
+        prevCurrent = current;
+        prevLineNumber = lineNumber;
+        source = new String(bytes, Charset.defaultCharset());
+        start = current = 0;
+        lineNumber = 1;
+        while (!isAtEnd()) {
+            start = current;
+            scanToken();
+        }
+    }
+
+    private void string() throws IOException {
         consumeString();
         if (isAtEnd()) {
             TaylorScript.error(lineNumber, "Unterminated string.");
@@ -167,7 +194,21 @@ public class Lexer {
 
         // get the string except the surrounding quotes
         String value = source.substring(start + 1, current - 1);
-        addToken(STRING, value);
+        if (isInTailorCall) {
+            isInTailorCall = false;
+            advance();
+            parseTailorFile(value);
+            revertState();
+        } else {
+            addToken(STRING, value);
+        }
+    }
+
+    private void revertState() {
+        source = prevSource;
+        start = prevStart;
+        current = prevCurrent;
+        lineNumber = prevLineNumber;
     }
 
     private void consumeString() {
