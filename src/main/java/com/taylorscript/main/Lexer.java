@@ -107,13 +107,9 @@ public class Lexer {
             case '"': string(); break;
 
             default:
-                if (isDigit(c)) {
-                    number();
-                } else if (isAlpha(c)) {
-                    identifier();
-                } else {
-                    TaylorScript.error(lineNumber, "Unexpected character.");
-                }
+                if (isDigit(c)) number();
+                else if (isAlpha(c)) identifier();
+                else TaylorScript.error(lineNumber, "Unexpected character.");
                 break;
         }
     }
