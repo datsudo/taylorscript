@@ -142,6 +142,17 @@ public class Lexer {
                 Double.parseDouble(source.substring(start, current)));
     }
 
+    private boolean isTailorCall() {
+        if (source.charAt(current - 1) != 'T') return false;
+        int t = 1;
+        while (t < 6) {
+            if (peek() != "Tailor".charAt(t)) return false;
+            advance();
+            t++;
+        }
+        return true;
+    }
+
     private void string() {
         while (peek() != '"' && !isAtEnd()) {
             if (peek() == '\n') {
