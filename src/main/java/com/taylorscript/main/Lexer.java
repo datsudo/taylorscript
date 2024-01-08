@@ -80,6 +80,12 @@ public class Lexer {
             case '=': addToken(matchNextChar('=') ? EEQ : EQUAL); break;
             case '<': addToken(matchNextChar('=') ? LEQ : LTHAN); break;
             case '>': addToken(matchNextChar('=') ? GEQ : GTHAN); break;
+            case '&':
+                if (matchNextChar('&')) addToken(AND);
+                break;
+            case '|':
+                if (matchNextChar('|')) addToken(OR);
+                break;
 
             case '-':
                 if (matchNextChar('-'))
