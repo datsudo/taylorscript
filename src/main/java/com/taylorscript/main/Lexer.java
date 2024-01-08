@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.taylorscript.main.TokenType.*;
+import static com.taylorscript.main.TokenType.VAR;
 
 public class Lexer {
     private String source;
@@ -42,6 +43,7 @@ public class Lexer {
         keywords.put("Dear", SWITCH);
         keywords.put("John", CASE);
         keywords.put("Closure", DEFAULT);
+        keywords.put("Let", VAR);
         keywords.put("Getaway", TRY);
         keywords.put("Car", CATCH);
     }

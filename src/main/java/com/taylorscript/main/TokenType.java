@@ -26,6 +26,7 @@ enum TokenType {
     TRY, CATCH,  // exception handling
     SWITCH, CASE, DEFAULT,  // switch-case
     PRINT, BREAK, RETURN, CLEAR,  // etc
+    VAR,
     INPUT,
 
     EOF
