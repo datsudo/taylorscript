@@ -151,6 +151,7 @@ class Parser {
             switch (peek().type) {
                 case FUNC:
                 case LOOP:
+                case VAR:
                 case IF:
                 case PRINT:
                 case RETURN:

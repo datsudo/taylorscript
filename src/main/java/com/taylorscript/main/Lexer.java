@@ -42,6 +42,7 @@ public class Lexer {
         keywords.put("Dear", SWITCH);
         keywords.put("John", CASE);
         keywords.put("Closure", DEFAULT);
+        keywords.put("Let", VAR);
         keywords.put("Getaway", TRY);
         keywords.put("Car", CATCH);
     }
