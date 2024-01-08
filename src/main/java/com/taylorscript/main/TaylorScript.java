@@ -64,4 +64,12 @@ public class TaylorScript {
         System.err.println("[LINE " + lineNumber + "] Error" + where + ": " + message);
         hadError = true;
     }
+
+    static void error(Token token, String message) {
+        if (token.type == TokenType.EOF) {
+            report(token.lineNumber, "at end", message);
+        } else {
+            report(token.lineNumber, " at '" + token.lexeme + "'", message);
+        }
+    }
 }
