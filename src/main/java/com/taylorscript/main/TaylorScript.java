@@ -13,7 +13,7 @@ public class TaylorScript {
 
     public static void main(String[] args) throws IOException {
         if (args.length > 1) {
-            System.out.println("USAGE: PL [script]");
+            System.out.println("USAGE: TaylorScript [script]");
             System.exit(64);
         } else if (args.length == 1) {
             runFile(args[0]);
@@ -35,8 +35,9 @@ public class TaylorScript {
         InputStreamReader input = new InputStreamReader(System.in);
         BufferedReader reader = new BufferedReader(input);
 
+        System.out.println("TaylorScript v0 (2024)");
         for (;;) {
-            System.out.print("[ IN] << ");
+            System.out.print("->> ");
             String line = reader.readLine();
             if (line == null) {
                 break;
