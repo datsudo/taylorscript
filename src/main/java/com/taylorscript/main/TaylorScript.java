@@ -48,12 +48,21 @@ public class TaylorScript {
     }
 
     private static void run(String source) throws IOException {
+//        Lexer lexer = new Lexer(source);
+//        List<Token> tokens = lexer.scanTokens();
+//
+//        for (Token token: tokens) {
+//            System.out.println(token);
+//        }
         Lexer lexer = new Lexer(source);
         List<Token> tokens = lexer.scanTokens();
+        Parser parser = new Parser(tokens);
+        Expr expression = parser.parse();
 
-        for (Token token: tokens) {
-            System.out.println(token);
-        }
+        if (hadError) return;
+
+        System.out.println(new AstPrinter().print(expression));
+
     }
 
     static void error(int lineNumber, String message) {

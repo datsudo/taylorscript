@@ -14,6 +14,14 @@ class Parser {
         this.tokens = tokens;
     }
 
+    Expr parse() {
+        try {
+            return expression();
+        } catch (ParseError error) {
+            return null;
+        }
+    }
+
     private Expr expression() {
         return equality();
     }
@@ -93,6 +101,8 @@ class Parser {
             consume(RPAREN, "Expect ')' after expression");
             return new Expr.Grouping(expr);
         }
+
+        throw error(peek(), "Expect expression.");
     }
 
     private boolean match(TokenType... types) {
@@ -116,7 +126,7 @@ class Parser {
     private boolean check(TokenType type) {
         // true if the current token is of given type
         if (isAtEnd()) return false;
-        return peek().type = type;
+        return peek().type == type;
     }
 
     private Token advance() {
