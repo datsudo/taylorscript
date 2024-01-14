@@ -58,7 +58,11 @@ public class TaylorScript {
     private static void printTokenTable(List<Token> tokens) {
         PrettyTable tokenTable = new PrettyTable("TOKEN", "LEXEME", "LITERAL");
         for (Token token: tokens) {
-            tokenTable.addRow(token.type + "", token.lexeme, token.literal + "");
+            String literal = "";
+            if (token.literal != null) {
+                literal = token.literal + "";
+            }
+            tokenTable.addRow(token.type + "", token.lexeme, literal);
         }
         System.out.println(tokenTable);
     }
