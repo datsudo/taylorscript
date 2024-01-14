@@ -1,5 +1,7 @@
 package com.taylorscript.main;
 
+import org.sk.PrettyTable;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -50,10 +52,7 @@ public class TaylorScript {
     private static void run(String source) throws IOException {
 //        Lexer lexer = new Lexer(source);
 //        List<Token> tokens = lexer.scanTokens();
-//
-//        for (Token token: tokens) {
-//            System.out.println(token);
-//        }
+//        printTokenTable(tokens);
         Lexer lexer = new Lexer(source);
         List<Token> tokens = lexer.scanTokens();
         Parser parser = new Parser(tokens);
@@ -63,6 +62,14 @@ public class TaylorScript {
 
         System.out.println(new AstPrinter().print(expression));
 
+    }
+
+    private static void printTokenTable(List<Token> tokens) {
+        PrettyTable tokenTable = new PrettyTable("TOKEN", "LEXEME", "LITERAL");
+        for (Token token: tokens) {
+            tokenTable.addRow(token.type + "", token.lexeme, token.literal + "");
+        }
+        System.out.println(tokenTable);
     }
 
     static void error(int lineNumber, String message) {
