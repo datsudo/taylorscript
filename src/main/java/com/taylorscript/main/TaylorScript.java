@@ -13,7 +13,7 @@ public class TaylorScript {
 
     public static void main(String[] args) throws IOException {
         if (args.length > 1) {
-            System.out.println("USAGE: TaylorScript [script]");
+            System.out.println("USAGE: taylorscript [script]");
             System.exit(64);
         } else if (args.length == 1) {
             runFile(args[0]);
