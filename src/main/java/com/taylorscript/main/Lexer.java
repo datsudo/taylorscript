@@ -31,21 +31,21 @@ public class Lexer {
         keywords.put("Mine", INPUT);
         keywords.put("When", IF);
         keywords.put("Thats", ELSE);
-        keywords.put("ThatsWhen", ELIF);
+        keywords.put("Then", ELIF);
         keywords.put("AllTooWhile", LOOP);
         keywords.put("BlankSpace", NIL);
         keywords.put("The1", TRUE);
         keywords.put("The0", FALSE);
         keywords.put("SpeakNow", PRINT);
-        keywords.put("BackToDecember", RETURN);
+        keywords.put("BackTo", RETURN);
         keywords.put("Evermore", CONTINUE);
-        keywords.put("Clear", CLEAR);
+        keywords.put("Clean", CLEAR);
         keywords.put("Dear", SWITCH);
         keywords.put("John", CASE);
         keywords.put("Closure", DEFAULT);
         keywords.put("Let", VAR);
-        keywords.put("Getaway", TRY);
-        keywords.put("Car", CATCH);
+        keywords.put("Fear", TRY);
+        keywords.put("Less", CATCH);
     }
 
     Lexer(String source) {
