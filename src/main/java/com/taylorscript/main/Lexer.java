@@ -212,7 +212,7 @@ public class Lexer {
                 return;
             }
 
-            parseTailorFile(value + "lor");
+            parseTailorFile(value + ".lor");
             revertState();
         } else {
             addToken(STRING, value);
