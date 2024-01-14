@@ -13,7 +13,7 @@ public class TaylorScript {
 
     public static void main(String[] args) throws IOException {
         if (args.length > 1) {
-            System.out.println("USAGE: TaylorScript [script]");
+            System.out.println("USAGE: taylorscript [script]");
             System.exit(64);
         } else if (args.length == 1) {
             runFile(args[0]);
@@ -48,12 +48,21 @@ public class TaylorScript {
     }
 
     private static void run(String source) throws IOException {
+//        Lexer lexer = new Lexer(source);
+//        List<Token> tokens = lexer.scanTokens();
+//
+//        for (Token token: tokens) {
+//            System.out.println(token);
+//        }
         Lexer lexer = new Lexer(source);
         List<Token> tokens = lexer.scanTokens();
+        Parser parser = new Parser(tokens);
+        Expr expression = parser.parse();
 
-        for (Token token: tokens) {
-            System.out.println(token);
-        }
+        if (hadError) return;
+
+        System.out.println(new AstPrinter().print(expression));
+
     }
 
     static void error(int lineNumber, String message) {
@@ -63,5 +72,13 @@ public class TaylorScript {
     private static void report(int lineNumber, String where, String message) {
         System.err.println("[LINE " + lineNumber + "] Error" + where + ": " + message);
         hadError = true;
+    }
+
+    static void error(Token token, String message) {
+        if (token.type == TokenType.EOF) {
+            report(token.lineNumber, "at end", message);
+        } else {
+            report(token.lineNumber, " at '" + token.lexeme + "'", message);
+        }
     }
 }
