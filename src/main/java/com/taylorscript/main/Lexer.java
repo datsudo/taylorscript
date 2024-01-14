@@ -1,5 +1,6 @@
 package com.taylorscript.main;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -178,7 +179,7 @@ public class Lexer {
     }
 
     private void parseTailorFile(String tailorFilePath) throws IOException {
-        byte[] bytes = Files.readAllBytes(Paths.get(tailorFilePath + ".lor"));
+        byte[] bytes = Files.readAllBytes(Paths.get(tailorFilePath));
         prevSource = source;
         prevStart = start;
         prevCurrent = current;
@@ -205,7 +206,13 @@ public class Lexer {
         if (isInTailorCall) {
             isInTailorCall = false;
             advance();
-            parseTailorFile(value);
+
+            if (!new File( value + ".lor").isFile()) {
+                TaylorScript.error(lineNumber, "Fragment code doesn't exist.");
+                return;
+            }
+
+            parseTailorFile(value + "lor");
             revertState();
         } else {
             addToken(STRING, value);
