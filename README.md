@@ -1,0 +1,60 @@
+<div align="center">
+    <h1>TaylorScript</h1>
+</div>
+
+## Contents
+- [Building the project](#building-the-project)
+  - [Prerequisites](#prerequisites)
+  - [Build commands](#build-commands)
+- [Run the program](#run-the-program)
+
+## Building the project
+
+### Prerequisites
+The following prerequisites are:
+- Java 17 OpenJDK
+- [Maven](https://maven.apache.org/download.cgi)
+- [Optional] [Make](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows) for running the program
+
+To check if they're properly installed, run the
+following in your terminal (the output should tell their version info):
+```shell
+# For checking if Java is installed:
+java --version
+javac --version
+
+# For Maven:
+mvn -v
+```
+
+### Build commands
+We initialize first the project to include all the external `.jar`
+files or plugins:
+```shell
+mvn initialize
+```
+
+Then we compile the project that will output all the `.class`
+files in `target/` directory:
+```shell
+mvn compile
+```
+
+## Run the program
+- The program optionally accepts one parameter: a TaylorScript
+  file (ends with `.tay` file).
+- Without parameters, the program will provide you an **interactive
+  shell** (also called **REPL** - read-eval-print loop), where you can quickly
+  run simple expressions and get immediate results
+- As of the moment, there are two branches in this repository:
+  `part1-lexer` and `feature-parser`.
+- In `part1-lexer`, the program only outputs all the scanned tokens in
+  an expression or a source file
+- `feature-parser` currently only recognizes
+
+To run the REPL with `java`:
+```shell
+java -classpath target/classes:lib/prettytable-v1.0.jar:lib/commons-lang3-3.5.jar com.taylorscript.main.TaylorScript
+```
+
+> To simplify this, there is a provided script for Linux: `taylorscript`; make it executable by running `chmod +x taylorscript`
