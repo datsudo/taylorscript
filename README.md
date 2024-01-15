@@ -50,11 +50,14 @@ mvn compile
   `part1-lexer` and `feature-parser`.
 - In `part1-lexer`, the program only outputs all the scanned tokens in
   an expression or a source file
-- `feature-parser` currently only recognizes
+- `feature-parser` currently only recognizes arithmetic operations; it outputs
+the expression in [Polish Notation](https://en.wikipedia.org/wiki/Polish_notation) to easily recognize the order
+of precedence.
 
 To run the REPL with `java`:
 ```shell
 java -classpath target/classes:lib/prettytable-v1.0.jar:lib/commons-lang3-3.5.jar com.taylorscript.main.TaylorScript
 ```
 
-> To simplify this, there is a provided script for Linux: `taylorscript`; make it executable by running `chmod +x taylorscript`
+> To simplify this, there is a provided script for Linux: `taylorscript`;
+> make it executable by running `chmod +x taylorscript`
