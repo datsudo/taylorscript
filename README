@@ -1,0 +1,17 @@
+Lexical Analyzer for TaylorScript
+=================================
+
+This scans all the symbols/lexemes in a TaylorScript
+expression or script files supported by TaylorScript
+(that ends with .tay file extension).
+
+The program outputs a table with three columns:
+- Token type: a category where a symbol belongs to
+- Lexeme: the symbol itself that was scanned
+- Literal: the value of the token (only for tokens
+  such as string or number)
+
+License
+=======
+This repository is licensed under Apache License 2.0.
+See LICENSE file for more information.
