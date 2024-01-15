@@ -4,8 +4,8 @@ SCRIPT="$1"
 
 
 if [[ !(-z "$SCRIPT") ]]; then
-    java -classpath target/classes:lib/prettytable-v1.0.jar:lib/commons-lang3-3.5.jar com.taylorscript.main.TaylorScript "$SCRIPT"
+    java -classpath target\classes com.taylorscript.main.TaylorScript "$SCRIPT"
     exit 0
 fi
 
-java -classpath target/classes:lib/prettytable-v1.0.jar:lib/commons-lang3-3.5.jar com.taylorscript.main.TaylorScript
+java -classpath target\classes com.taylorscript.main.TaylorScript
