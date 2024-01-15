@@ -27,7 +27,12 @@ mvn -v
 ```
 
 ### Build commands
-We initialize first the project to include all the external `.jar`
+Install all the necessaary plugins with:
+```shell
+mvn clean install
+```
+
+Then we initialize first the project to include all the external `.jar`
 files or plugins:
 ```shell
 mvn initialize
