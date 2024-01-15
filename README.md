@@ -67,8 +67,10 @@ java -cp "target\classes;lib\*" com.taylorscript.main.TaylorScript
 java -cp "target/classes:lib/*" com.taylorscript.main.TaylorScript
 ```
 
-> To simplify this, there is a provided script for Linux: `taylorscript`;
-> make it executable by running `chmod +x taylorscript`
+To simplify this:
+- There is a provided script for Linux: `taylorscript`;
+make it executable by running `chmod +x taylorscript`
+- For Windows: run the `tayloscript.bat` file that runs both REPL and accepts source file input
 
 ## Resources
 * Robert Nystrom - [Crafting Interpreters](https://craftinginterpreters.com/)
