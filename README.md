@@ -62,5 +62,10 @@ java -classpath target/classes:lib/prettytable-v1.0.jar:lib/commons-lang3-3.5.ja
 > To simplify this, there is a provided script for Linux: `taylorscript`;
 > make it executable by running `chmod +x taylorscript`
 
+## Resources
+* Robert Nystrom - [Crafting Interpreters](https://craftinginterpreters.com/)
+* Thorsten Ball - [Writing an Interpreter in Go](https://interpreterbook.com/)
+* Robert Sebesta - [Concepts of Programming Languages](https://books.google.com.ph/books/about/Concepts_of_Programming_Languages.html?id=Z1Y_AQAAIAAJ&redir_esc=y)
+
 ## License
 [Apache License 2.0](https://github.com/datsudo/taylorscript/blob/main/LICENSE)
