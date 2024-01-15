@@ -47,6 +47,9 @@ public class Lexer {
         keywords.put("Let", VAR);
         keywords.put("Fear", TRY);
         keywords.put("Less", CATCH);
+        keywords.put("Number_Style", NUMSTYLE);
+        keywords.put("Str_Style", STRSTYLE);
+        keywords.put("Bool_Style", BOOLSTYLE);
     }
 
     Lexer(String source) {
