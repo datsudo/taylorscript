@@ -21,6 +21,9 @@ enum TokenType {
     FUNC,  // abstraction
     NIL, TRUE, FALSE,  // logic
 
+    // noise
+    NUMSTYLE, STRSTYLE, BOOLSTYLE,
+
     LOOP, CONTINUE,  // combined for-while loop
     IF, ELSE, ELIF,  // control
     TRY, CATCH,  // exception handling
