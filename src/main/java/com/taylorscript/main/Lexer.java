@@ -49,6 +49,9 @@ public class Lexer {
         keywords.put("Number_Style", NUMSTYLE);
         keywords.put("Str_Style", STRSTYLE);
         keywords.put("Bool_Style", BOOLSTYLE);
+        keywords.put("Number", NUMSTYLE);
+        keywords.put("Str", STRSTYLE);
+        keywords.put("Bool", BOOLSTYLE);
     }
 
     Lexer(String source) {
