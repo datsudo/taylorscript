@@ -11,6 +11,13 @@ The program outputs a table with three columns:
 - Literal: the value of the token (only for tokens
   such as string or number)
 
+Build
+=====
+Run the following in order:
+1:    mvn clean install
+2:    mvn initialize
+3:    mvn compile
+
 License
 =======
 This repository is licensed under Apache License 2.0.
