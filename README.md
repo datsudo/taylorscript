@@ -55,7 +55,7 @@ of precedence.
 
 To run the REPL with `java`:
 ```shell
-java -classpath target/classes:lib/prettytable-v1.0.jar:lib/commons-lang3-3.5.jar com.taylorscript.main.TaylorScript
+java -classpath target\classes com.taylorscript.main.TaylorScript
 ```
 
 > To simplify this, there is a provided script for Linux: `taylorscript`;
