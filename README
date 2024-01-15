@@ -18,6 +18,11 @@ Run the following in order:
 2:    mvn initialize
 3:    mvn compile
 
+Run
+===
+For Windows:    java -cp "target/classes;lib/*" com.taylorscript.main.TaylorScript
+For Linux  :    java -cp "target/classes:lib/*" com.taylorscript.main.TaylorScript
+
 License
 =======
 This repository is licensed under Apache License 2.0.
