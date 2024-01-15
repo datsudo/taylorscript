@@ -4,8 +4,8 @@ SCRIPT="$1"
 
 
 if [[ !(-z "$SCRIPT") ]]; then
-    java -classpath target\classes com.taylorscript.main.TaylorScript "$SCRIPT"
+    java -cp "target/classes:lib/*" com.taylorscript.main.TaylorScript "$SCRIPT"
     exit 0
 fi
 
-java -classpath target\classes com.taylorscript.main.TaylorScript
+java -cp "target/classes:lib/*" com.taylorscript.main.TaylorScript
