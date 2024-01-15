@@ -12,9 +12,8 @@
 
 ### Prerequisites
 The following prerequisites are:
-- Java 17 OpenJDK
+- Java 17 SDK
 - [Maven](https://maven.apache.org/download.cgi)
-- [Optional] [Make](https://stackoverflow.com/questions/32127524/how-to-install-and-use-make-in-windows) for running the program
 
 To check if they're properly installed, run the
 following in your terminal (the output should tell their version info):
