@@ -25,7 +25,7 @@ public class TaylorScript {
     }
 
     private static void runFile(String filePath) throws IOException {
-        if (!filePath.substring(filePath.lastIndexOf('.') + 1).equals(".tay")) {
+        if (!filePath.substring(filePath.lastIndexOf('.')).equals(".tay")) {
             System.err.println("[FileExtensionError] Source file must end with .tay extension.");
             System.exit(65);
         }
