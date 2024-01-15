@@ -60,7 +60,11 @@ of precedence.
 
 To run the REPL with `java`:
 ```shell
-java -classpath target\classes com.taylorscript.main.TaylorScript
+# In Windows CMD/Powershell:
+java -cp "target\classes;lib\*" com.taylorscript.main.TaylorScript
+
+# In Linux (uses colon instead semicolon):
+java -cp "target/classes:lib/*" com.taylorscript.main.TaylorScript
 ```
 
 > To simplify this, there is a provided script for Linux: `taylorscript`;
