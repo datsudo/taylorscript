@@ -5,7 +5,7 @@ enum TokenType {
     LPAREN, RPAREN, LBRACE, RBRACE,
     LBRACKET, RBRACKET,
     MINUS, PLUS, SLASH, STAR, PCENT,
-    COMMA, DOT, SEMICOLON,
+    COMMA, DOT, SEMICOLON, COLON,
 
     // one-two char tokens
     BANG, BEQ,
