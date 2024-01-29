@@ -41,7 +41,7 @@ abstract class Statement {
         If(Expr condition, Statement thenBranch, Statement elseBranch) {
             this.condition = condition;
             this.thenBranch = thenBranch;
-            this.elseBranch = thenBranch;
+            this.elseBranch = elseBranch;
         }
 
         @Override
