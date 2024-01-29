@@ -1,10 +1,11 @@
 package com.taylorscript.main;
 
 class Interpreter implements Expr.Visitor<Object>, Statement.Visitor<Void> {
-    void interpret(Expr expression) {
+    void interpret(List<Statement> statements) {
         try {
-            Object value = evaluate(expression);
-            System.out.println(stringify(value));
+            for (Statement statement : statements) {
+                execute(statement);
+            }
         } catch (RuntimeError error) {
             TaylorScript.runtimeError(error);
         }
@@ -86,6 +87,10 @@ class Interpreter implements Expr.Visitor<Object>, Statement.Visitor<Void> {
     private Object evaluate(Expr expr) {
         // Evaluates the subexpressions recursively
         return expr.accept(this);
+    }
+
+    private void execute(Statement statement) {
+        statement.accept(this);
     }
 
     @Override
