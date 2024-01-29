@@ -1,5 +1,6 @@
 package com.taylorscript.main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.taylorscript.main.TokenType.*;
@@ -14,16 +15,23 @@ class Parser {
         this.tokens = tokens;
     }
 
-    Expr parse() {
-        try {
-            return expression();
-        } catch (ParseError error) {
-            return null;
+    List<Statement> parse() {
+        List<Statement> statements = new ArrayList<>();
+        while (!isAtEnd()) {
+            statements.add(statement());
         }
+
+        return statements;
     }
 
     private Expr expression() {
         return equality();
+    }
+
+    private Statement statement() {
+        if (match(PRINT)) return printStatement();
+
+        return expressionStatement();
     }
 
     private Expr equality() {
