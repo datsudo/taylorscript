@@ -54,9 +54,6 @@ public class TaylorScript {
     }
 
     private static void run(String source) throws IOException {
-//        Lexer lexer = new Lexer(source);
-//        List<Token> tokens = lexer.scanTokens();
-//        printTokenTable(tokens);
         Lexer lexer = new Lexer(source);
         List<Token> tokens = lexer.scanTokens();
         Parser parser = new Parser(tokens);
