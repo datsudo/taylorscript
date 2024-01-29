@@ -3,6 +3,8 @@ package com.taylorscript.main;
 import java.util.List;
 
 class Interpreter implements Expr.Visitor<Object>, Statement.Visitor<Void> {
+    private Environment environment = new Environment();
+
     void interpret(List<Statement> statements) {
         try {
             for (Statement statement : statements) {
@@ -105,6 +107,17 @@ class Interpreter implements Expr.Visitor<Object>, Statement.Visitor<Void> {
     public Void visitPrintStatement(Statement.Print statement) {
         Object value = evaluate(statement.expression);
         System.out.println(stringify(value));
+        return null;
+    }
+
+    @Override
+    public Void visitLetStatement(Statement.Let statement) {
+        Object value = null;
+        if (statement.initializer != null) {
+            value = evaluate(statement.initializer);
+        }
+
+        environment.define(statement.name.lexeme, value);
         return null;
     }
 
