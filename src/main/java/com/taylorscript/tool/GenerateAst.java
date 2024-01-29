@@ -23,6 +23,7 @@ public class GenerateAst {
         ));
 
         defineAst(outputDir, "Statement", Arrays.asList(
+                "Block      : List<Statement> statements",
                 "Expression : Expr expression",
                 "Print      : Expr expression",
                 "Let        : Token name, Expr initializer"

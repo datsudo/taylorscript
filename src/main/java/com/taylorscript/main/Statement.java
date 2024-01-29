@@ -4,9 +4,23 @@ import java.util.List;
 
 abstract class Statement {
     interface Visitor<R> {
+        R visitBlockStatement(Block statement);
         R visitExpressionStatement(Expression statement);
         R visitPrintStatement(Print statement);
         R visitLetStatement(Let statement);
+    }
+
+    static class Block extends Statement {
+        Block(List<Statement> statements) {
+            this.statements = statements;
+        }
+
+        @Override
+        <R> R accept(Visitor<R> visitor) {
+            return visitor.visitBlockStatement(this);
+        }
+
+        final List<Statement> statements;
     }
 
     static class Expression extends Statement {
