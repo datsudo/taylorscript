@@ -1,6 +1,6 @@
 package com.taylorscript.main;
 
-class Interpreter implements Expr.Visitor<Object> {
+class Interpreter implements Expr.Visitor<Object>, Statement.Visitor<Void> {
     void interpret(Expr expression) {
         try {
             Object value = evaluate(expression);
@@ -86,6 +86,19 @@ class Interpreter implements Expr.Visitor<Object> {
     private Object evaluate(Expr expr) {
         // Evaluates the subexpressions recursively
         return expr.accept(this);
+    }
+
+    @Override
+    public Void visitExpressionStatement(Statement.Expression statement) {
+        evaluate(statement.expression);
+        return null;
+    }
+
+    @Override
+    public Void visitPrintStatement(Statement.Print statement) {
+        Object value = evaluate(statement.expression);
+        System.out.println(stringify(value));
+        return null;
     }
 
     @Override
