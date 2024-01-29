@@ -24,7 +24,7 @@ class Interpreter implements Expr.Visitor<Object>, Statement.Visitor<Void> {
     @Override
     public Object visitLogicalExpr(Expr.Logical expr) {
         Object left = evaluate(expr.left);
-        if (expr.operator.type == TokenType.OR) {
+        if (expr.operator.type == TokenType.LOGICAL_OR) {
             if (isTruthy(left)) return left;
         } else {
             if (!isTruthy(left)) return left;
@@ -39,7 +39,7 @@ class Interpreter implements Expr.Visitor<Object>, Statement.Visitor<Void> {
         Object rightSubExpr = evaluate(expr.right);
 
         switch (expr.operator.type) {
-            case BANG:
+            case LOGICAL_NOT:
                 return !isTruthy(rightSubExpr);
             case MINUS:
                 checkNumberOperand(expr.operator, rightSubExpr);
@@ -189,21 +189,21 @@ class Interpreter implements Expr.Visitor<Object>, Statement.Visitor<Void> {
         Object right = evaluate(expr.right);
 
         switch (expr.operator.type) {
-            case GTHAN:
+            case GREATER_THAN:
                 checkNumberOperands(expr.operator, left, right);
                 return (double)left > (double)right;
-            case GEQ:
+            case GREATER_THAN_EQ:
                 checkNumberOperands(expr.operator, left, right);
                 return (double)left >= (double)right;
-            case LTHAN:
+            case LESS_THAN:
                 checkNumberOperands(expr.operator, left, right);
                 return (double)left < (double)right;
-            case LEQ:
+            case LESS_THAN_EQ:
                 checkNumberOperands(expr.operator, left, right);
                 return (double)left <= (double)right;
-            case BEQ:
+            case NOT_EQUAL:
                 return !isEqual(left, right);
-            case EEQ:
+            case COMP_EQUAL:
                 return isEqual(left, right);
             case MINUS:
                 checkNumberOperands(expr.operator, left, right);

@@ -2,17 +2,17 @@ package com.taylorscript.main;
 
 enum TokenType {
     // single-char tokens
-    LPAREN, RPAREN, LBRACE, RBRACE,
-    LBRACKET, RBRACKET,
+    LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,
+    LEFT_BRACKET, RIGHT_BRACKET,
     MINUS, PLUS, SLASH, STAR, PCENT,
     COMMA, DOT, SEMICOLON, COLON,
 
     // one-two char tokens
-    BANG, BEQ,
-    EQUAL, EEQ,
-    GTHAN, GEQ,
-    LTHAN, LEQ,
-    AND, OR,
+    LOGICAL_NOT, NOT_EQUAL,
+    ASSIGN_EQUAL, COMP_EQUAL,
+    GREATER_THAN, GREATER_THAN_EQ,
+    LESS_THAN, LESS_THAN_EQ,
+    LOGICAL_AND, LOGICAL_OR,
 
     // literals
     IDENT, STRING, NUMBER,

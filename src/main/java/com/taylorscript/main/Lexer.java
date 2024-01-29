@@ -73,12 +73,12 @@ public class Lexer {
         // parse individual token
         char c = advance();
         switch (c) {
-            case '(': addToken(LPAREN   ); break;
-            case ')': addToken(RPAREN   ); break;
-            case '{': addToken(LBRACE   ); break;
-            case '}': addToken(RBRACE   ); break;
-            case '[': addToken(LBRACKET ); break;
-            case ']': addToken(RBRACKET ); break;
+            case '(': addToken(LEFT_PAREN); break;
+            case ')': addToken(RIGHT_PAREN); break;
+            case '{': addToken(LEFT_BRACE); break;
+            case '}': addToken(RIGHT_BRACE); break;
+            case '[': addToken(LEFT_BRACKET); break;
+            case ']': addToken(RIGHT_BRACKET); break;
             case '+': addToken(PLUS     ); break;
             case '/': addToken(SLASH    ); break;
             case ',': addToken(COMMA    ); break;
@@ -87,15 +87,15 @@ public class Lexer {
             case ':': addToken(COLON    ); break;
             case '%': addToken(PCENT    ); break;
 
-            case '!': addToken(matchNextChar('=') ? BEQ : BANG ); break;
-            case '=': addToken(matchNextChar('=') ? EEQ : EQUAL); break;
-            case '<': addToken(matchNextChar('=') ? LEQ : LTHAN); break;
-            case '>': addToken(matchNextChar('=') ? GEQ : GTHAN); break;
+            case '!': addToken(matchNextChar('=') ? NOT_EQUAL : LOGICAL_NOT); break;
+            case '=': addToken(matchNextChar('=') ? COMP_EQUAL : ASSIGN_EQUAL); break;
+            case '<': addToken(matchNextChar('=') ? LESS_THAN_EQ : LESS_THAN); break;
+            case '>': addToken(matchNextChar('=') ? GREATER_THAN_EQ : GREATER_THAN); break;
             case '&':
-                if (matchNextChar('&')) addToken(AND);
+                if (matchNextChar('&')) addToken(LOGICAL_AND);
                 break;
             case '|':
-                if (matchNextChar('|')) addToken(OR);
+                if (matchNextChar('|')) addToken(LOGICAL_OR);
                 break;
 
             case '-':

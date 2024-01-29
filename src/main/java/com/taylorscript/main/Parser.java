@@ -43,15 +43,15 @@ class Parser {
         if (match(IF)) return ifStatement();
         if (match(PRINT)) return printStatement();
         if (match(LOOP)) return loopStatement();
-        if (match(LBRACKET)) return new Statement.Block(block());
+        if (match(LEFT_BRACKET)) return new Statement.Block(block());
 
         return expressionStatement();
     }
 
     private Statement ifStatement() {
-        consume(LBRACKET, "Expect '[' after 'When'.");
+        consume(LEFT_BRACKET, "Expect '[' after 'When'.");
         Expr condition = expression();
-        consume(RBRACKET, "Expect ']' after 'When' condition.");
+        consume(RIGHT_BRACKET, "Expect ']' after 'When' condition.");
 
         Statement thenBranch = statement();
         Statement elseBranch = null;
@@ -64,9 +64,9 @@ class Parser {
     }
 
     private Statement printStatement() {
-        consume(LBRACKET, "Expect '[' before expression.");
+        consume(LEFT_BRACKET, "Expect '[' before expression.");
         Expr value = expression();
-        consume(RBRACKET, "Expect ']' after expression.");
+        consume(RIGHT_BRACKET, "Expect ']' after expression.");
         consume(SEMICOLON, "Expect ';' after value.");
 
         return new Statement.Print(value);
@@ -76,7 +76,7 @@ class Parser {
         Token name = consume(IDENT, "Expect variable name.");
 
         Expr initializer = null;
-        if (match(EQUAL)) {
+        if (match(ASSIGN_EQUAL)) {
             initializer = expression();
         }
 
@@ -85,7 +85,7 @@ class Parser {
     }
 
     private Statement loopStatement() {
-        consume(LBRACKET, "Expect '[' after 'AllTooWhile'.");
+        consume(LEFT_BRACKET, "Expect '[' after 'AllTooWhile'.");
 
         if (check(SEMICOLON)) {
             advance();
@@ -101,7 +101,7 @@ class Parser {
 
     private Statement whileStatement() {
         Expr condition = expression();
-        consume(RBRACKET, "Expect ']' after condition.");
+        consume(RIGHT_BRACKET, "Expect ']' after condition.");
         Statement body = statement();
         return new Statement.While(condition, body);
     }
@@ -114,8 +114,8 @@ class Parser {
         consume(SEMICOLON, "Expect ';' after loop condition.");
 
         Expr increment = null;
-        if (!check(RBRACKET)) increment = expression();
-        consume(RBRACKET, "Expect ']' after loop header.");
+        if (!check(RIGHT_BRACKET)) increment = expression();
+        consume(RIGHT_BRACKET, "Expect ']' after loop header.");
 
         Statement body = statement();
 
@@ -142,18 +142,18 @@ class Parser {
     private List<Statement> block() {
         List<Statement> statements = new ArrayList<>();
 
-        while (!check(RBRACKET) && !isAtEnd()) {
+        while (!check(RIGHT_BRACKET) && !isAtEnd()) {
             statements.add(declaration());
         }
 
-        consume(RBRACKET, "Expect ']' after block.");
+        consume(RIGHT_BRACKET, "Expect ']' after block.");
         return statements;
     }
 
     private Expr assignment() {
         Expr expr = or();
 
-        if (match(EQUAL)) {
+        if (match(ASSIGN_EQUAL)) {
             Token equals = previous();
             Expr value = assignment();
 
@@ -171,7 +171,7 @@ class Parser {
     private Expr or() {
         Expr expr = and();
 
-        while (match(OR)) {
+        while (match(LOGICAL_OR)) {
             Token operator = previous();
             Expr right = and();
             expr = new Expr.Logical(expr, operator, right);
@@ -182,7 +182,7 @@ class Parser {
     private Expr and() {
         Expr expr = equality();
 
-        while (match(AND)) {
+        while (match(LOGICAL_AND)) {
             Token operator = previous();
             Expr right = equality();
             expr = new Expr.Logical(expr, operator, right);
@@ -195,7 +195,7 @@ class Parser {
         // equality -> comparison ( ( "!=" | "==" ) comparison )*
         Expr expr = comparison();
 
-        while (match(BEQ, EEQ)) {
+        while (match(NOT_EQUAL, COMP_EQUAL)) {
             Token operator = previous();
             Expr right = comparison();
             expr = new Expr.Binary(expr, operator, right);
@@ -208,7 +208,7 @@ class Parser {
         // comparison -> term ( ( ">" | ">=" | "<" | "<=" ) term )*
         Expr expr = term();
 
-        while (match(GTHAN, GEQ, LTHAN, LEQ)) {
+        while (match(GREATER_THAN, GREATER_THAN_EQ, LESS_THAN, LESS_THAN_EQ)) {
             Token operator = previous();
             Expr right = term();
             expr = new Expr.Binary(expr, operator, right);
@@ -243,7 +243,7 @@ class Parser {
 
     private Expr unary() {
         // unary -> ( "!" | "-" ) unary | primary
-        if (match(BANG, MINUS)) {
+        if (match(LOGICAL_NOT, MINUS)) {
             Token operator = previous();
             Expr right = unary();
             return new Expr.Unary(operator, right);
@@ -265,9 +265,9 @@ class Parser {
             return new Expr.Variable(previous());
         }
 
-        if (match(LPAREN)) {
+        if (match(LEFT_PAREN)) {
             Expr expr = expression();
-            consume(RPAREN, "Expect ')' after expression");
+            consume(RIGHT_PAREN, "Expect ')' after expression");
             return new Expr.Grouping(expr);
         }
 
