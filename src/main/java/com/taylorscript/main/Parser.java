@@ -35,7 +35,9 @@ class Parser {
     }
 
     private Statement printStatement() {
+        consume(LBRACKET, "Expect '[' before expression.");
         Expr value = expression();
+        consume(RBRACKET, "Expect ']' after expression.");
         consume(SEMICOLON, "Expect ';' after value.");
 
         return new Statement.Print(value);
