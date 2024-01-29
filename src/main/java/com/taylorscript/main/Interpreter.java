@@ -39,7 +39,12 @@ class Interpreter implements Expr.Visitor<Object> {
 
     private void checkNumberOperands(Token operator, Object left, Object right) {
         // Check left/right operands if they're numbers
-        if (left instanceof Double && right instanceof Double) return;
+        if (left instanceof Double && right instanceof Double) {
+            if (operator.type == TokenType.SLASH && (Double)right == 0) {
+                throw new RuntimeError(operator, "Zero division error.");
+            }
+            return;
+        }
         throw new RuntimeError(operator, "Operands must be numbers.");
     }
 
