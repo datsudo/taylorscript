@@ -38,9 +38,10 @@ abstract class Statement {
     }
 
     static class If extends Statement {
-        If(Expr condition, Statement thenBranch) {
+        If(Expr condition, Statement thenBranch, Statement elseBranch) {
             this.condition = condition;
             this.thenBranch = thenBranch;
+            this.elseBranch = thenBranch;
         }
 
         @Override
@@ -50,6 +51,7 @@ abstract class Statement {
 
         final Expr condition;
         final Statement thenBranch;
+        final Statement elseBranch;
     }
 
     static class Print extends Statement {
