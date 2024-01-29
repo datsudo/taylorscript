@@ -96,8 +96,7 @@ public class TaylorScript {
     }
 
     static void runtimeError(RuntimeError error) {
-        System.err.println(error.getMessage() +
-            "\n[LINE " + error.token.lineNumber + "]");
+        System.err.println("[LINE " + error.token.lineNumber + "] " + error.getMessage());
         hadRuntimeError = true;
     }
 }
