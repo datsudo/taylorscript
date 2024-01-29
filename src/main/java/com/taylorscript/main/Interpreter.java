@@ -39,4 +39,31 @@ class Interpreter implements Expr.Visitor<Object> {
         // Evaluates the subexpressions recursively
         return expr.accept(this);
     }
+
+    @Override
+    public Object visitBinaryExpr(Expr.Binary expr) {
+        Object left = evaluate(expr.left);
+        Object right = evaluate(expr.right);
+
+        switch (expr.operator.type) {
+            case MINUS:
+                return (double)left - (double)right;
+            case PLUS:
+                // If both left/right operands are number, evaluate their sum
+                if (left instanceof Double && right instanceof Double) {
+                    return (double)left + (double)right;
+                }
+                // If both are strings, concatenate
+                if (left instanceof String && right instanceof String) {
+                    return (String)left + (String)right;
+                }
+                break;
+            case SLASH:
+                return (double)left / (double)right;
+            case STAR:
+                return (double)left * (double)right;
+        }
+
+        return null;
+    }
 }
