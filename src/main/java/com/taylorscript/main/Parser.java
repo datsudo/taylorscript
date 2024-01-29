@@ -1,6 +1,7 @@
 package com.taylorscript.main;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.taylorscript.main.TokenType.*;
@@ -41,6 +42,7 @@ class Parser {
     private Statement statement() {
         if (match(IF)) return ifStatement();
         if (match(PRINT)) return printStatement();
+        if (match(LOOP)) return loopStatement();
         if (match(LBRACKET)) return new Statement.Block(block());
 
         return expressionStatement();
@@ -80,6 +82,55 @@ class Parser {
 
         consume(SEMICOLON, "Expect ';' after variable declaration.");
         return new Statement.Let(name, initializer);
+    }
+
+    private Statement loopStatement() {
+        consume(LBRACKET, "Expect '[' after 'AllTooWhile'.");
+
+        if (check(SEMICOLON)) {
+            advance();
+            return forStatement(null);
+        } else if (check(VAR)) {
+            advance();
+            return forStatement(varDeclaration());
+        } else {
+            return whileStatement();
+        }
+
+    }
+
+    private Statement whileStatement() {
+        Expr condition = expression();
+        consume(RBRACKET, "Expect ']' after condition.");
+        Statement body = statement();
+        return new Statement.While(condition, body);
+    }
+
+    private Statement forStatement(Statement initializer) {
+        Expr condition = null;
+        if (!check(SEMICOLON)) {
+            condition = expression();
+        }
+        consume(SEMICOLON, "Expect ';' after loop condition.");
+
+        Expr increment = null;
+        if (!check(RBRACKET)) increment = expression();
+        consume(RBRACKET, "Expect ']' after loop header.");
+
+        Statement body = statement();
+
+        if (increment != null) {
+            body = new Statement.Block(Arrays.asList(body, new Statement.Expression(increment)));
+        }
+
+        if (condition == null) condition = new Expr.Literal(true);
+        body = new Statement.While(condition, body);
+
+        if (initializer != null) {
+            body = new Statement.Block(Arrays.asList(initializer, body));
+        }
+
+        return body;
     }
 
     private Statement expressionStatement() {
