@@ -39,10 +39,26 @@ class Parser {
     }
 
     private Statement statement() {
+        if (match(IF)) return ifStatement();
         if (match(PRINT)) return printStatement();
         if (match(LBRACKET)) return new Statement.Block(block());
 
         return expressionStatement();
+    }
+
+    private Statement ifStatement() {
+        consume(LBRACKET, "Expect '[' after 'When'.");
+        Expr condition = expression();
+        consume(RBRACKET, "Expect ']' after 'When' condition.");
+
+        Statement thenBranch = statement();
+        Statement elseBranch = null;
+
+        if (match(ELSE)) {
+            elseBranch = statement();
+        }
+
+        return new Statement.If(condition, thenBranch, elseBranch);
     }
 
     private Statement printStatement() {

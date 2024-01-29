@@ -6,6 +6,7 @@ abstract class Statement {
     interface Visitor<R> {
         R visitBlockStatement(Block statement);
         R visitExpressionStatement(Expression statement);
+        R visitIfStatement(If statement);
         R visitPrintStatement(Print statement);
         R visitLetStatement(Let statement);
     }
@@ -34,6 +35,21 @@ abstract class Statement {
         }
 
         final Expr expression;
+    }
+
+    static class If extends Statement {
+        If(Expr condition, Statement thenBranch) {
+            this.condition = condition;
+            this.thenBranch = thenBranch;
+        }
+
+        @Override
+        <R> R accept(Visitor<R> visitor) {
+            return visitor.visitIfStatement(this);
+        }
+
+        final Expr condition;
+        final Statement thenBranch;
     }
 
     static class Print extends Statement {

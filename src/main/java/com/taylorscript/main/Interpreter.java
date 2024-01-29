@@ -135,6 +135,17 @@ class Interpreter implements Expr.Visitor<Object>, Statement.Visitor<Void> {
     }
 
     @Override
+    public Void visitIfStatement(Statement.If statement) {
+        if (isTruthy(evaluate(statement.condition))) {
+            execute(statement.thenBranch);
+        } else if (statement.elseBranch != null) {
+            execute(statement.elseBranch);
+        }
+
+        return null;
+    }
+
+    @Override
     public Void visitPrintStatement(Statement.Print statement) {
         Object value = evaluate(statement.expression);
         System.out.println(stringify(value));
