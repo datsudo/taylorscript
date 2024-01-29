@@ -29,6 +29,15 @@ class Interpreter implements Expr.Visitor<Object> {
         return true;
     }
 
+    private boolean isEqual(Object a, Object b) {
+        // Just checks if both objects are equal
+        // Used for "==" operator
+        if (a == null && b == null) return true;
+        if (a == null) return false;
+
+        return a.equals(b);
+    }
+
     @Override
     public Object visitGroupingExpr(Expr.Grouping expr) {
         // Evaluates grouping in expressions
@@ -46,6 +55,18 @@ class Interpreter implements Expr.Visitor<Object> {
         Object right = evaluate(expr.right);
 
         switch (expr.operator.type) {
+            case GTHAN:
+                return (double)left > (double)right;
+            case GEQ:
+                return (double)left >= (double)right;
+            case LTHAN:
+                return (double)left < (double)right;
+            case LEQ:
+                return (double)left <= (double)right;
+            case BEQ:
+                return !isEqual(left, right);
+            case EEQ:
+                return isEqual(left, right);
             case MINUS:
                 return (double)left - (double)right;
             case PLUS:
