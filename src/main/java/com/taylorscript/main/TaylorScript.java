@@ -58,12 +58,12 @@ public class TaylorScript {
         Lexer lexer = new Lexer(source);
         List<Token> tokens = lexer.scanTokens();
         Parser parser = new Parser(tokens);
-        Expr expression = parser.parse();
+        List<Statement> statements = parser.parse();
 
         if (hadError) return;
 
 //        System.out.println(new AstPrinter().print(expression));
-        interpreter.interpret(expression);
+        interpreter.interpret(statements);
     }
 
     private static void printTokenTable(List<Token> tokens) {
