@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class TaylorScript {
+    private static final Interpreter interpreter = new Interpreter();
     static boolean hadError = false;
     static boolean hadRuntimeError = false;
 
@@ -61,8 +62,8 @@ public class TaylorScript {
 
         if (hadError) return;
 
-        System.out.println(new AstPrinter().print(expression));
-
+//        System.out.println(new AstPrinter().print(expression));
+        interpreter.interpret(expression);
     }
 
     private static void printTokenTable(List<Token> tokens) {
