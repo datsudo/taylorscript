@@ -16,13 +16,18 @@ class Interpreter implements Expr.Visitor<Object> {
             case BANG:
                 return !isTruthy(rightSubExpr);
             case MINUS:
+                checkNumberOperand(expr.operator, right);
                 return -(double)rightSubExpr;
         }
 
         return null;
     }
 
-    @Override
+    private void checkNumberOperand(Token operator, Object operand) {
+        if (operand instanceof Double) return;
+        throw new RuntimeError(operator, "Operand must be a number.");  // TODO: implement RuntimeError class
+    }
+
     private boolean isTruthy(Object object) {
         if (object == null) return false;
         if (object instanceof Boolean) return (boolean)object;
