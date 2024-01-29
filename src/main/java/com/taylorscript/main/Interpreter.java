@@ -6,4 +6,10 @@ class Interpreter implements Expr.Visitor<Object> {
         // Returns the literal value of literal expression
         return expr.value;
     }
+
+    @Override
+    public Object visitGroupingExpr(Expr.Grouping expr) {
+        // Evaluates grouping in expressions
+        return evaluate(expr.expression);  // TODO: implement evaluate()
+    }
 }
