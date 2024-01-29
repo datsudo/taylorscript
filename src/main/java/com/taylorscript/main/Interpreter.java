@@ -25,7 +25,13 @@ class Interpreter implements Expr.Visitor<Object> {
 
     private void checkNumberOperand(Token operator, Object operand) {
         if (operand instanceof Double) return;
-        throw new RuntimeError(operator, "Operand must be a number.");  // TODO: implement RuntimeError class
+        throw new RuntimeError(operator, "Operand must be a number.");
+    }
+
+    private void checkNumberOperands(Token operator, Object left, Object right) {
+        // Check left/right operands if they're numbers
+        if (left instanceof Double && right instanceof Double) return;
+        throw new RuntimeError(operator, "Operands must be numbers.");
     }
 
     private boolean isTruthy(Object object) {
@@ -61,18 +67,23 @@ class Interpreter implements Expr.Visitor<Object> {
 
         switch (expr.operator.type) {
             case GTHAN:
+                checkNumberOperands(expr.operator, left, right);
                 return (double)left > (double)right;
             case GEQ:
+                checkNumberOperands(expr.operator, left, right);
                 return (double)left >= (double)right;
             case LTHAN:
+                checkNumberOperands(expr.operator, left, right);
                 return (double)left < (double)right;
             case LEQ:
+                checkNumberOperands(expr.operator, left, right);
                 return (double)left <= (double)right;
             case BEQ:
                 return !isEqual(left, right);
             case EEQ:
                 return isEqual(left, right);
             case MINUS:
+                checkNumberOperands(expr.operator, left, right);
                 return (double)left - (double)right;
             case PLUS:
                 // If both left/right operands are number, evaluate their sum
@@ -83,10 +94,13 @@ class Interpreter implements Expr.Visitor<Object> {
                 if (left instanceof String && right instanceof String) {
                     return (String)left + (String)right;
                 }
-                break;
+
+                throw new RuntimeError(expr.operator, "Operands must be numbers or strings.");
             case SLASH:
+                checkNumberOperands(expr.operator, left, right);
                 return (double)left / (double)right;
             case STAR:
+                checkNumberOperands(expr.operator, left, right);
                 return (double)left * (double)right;
         }
 
