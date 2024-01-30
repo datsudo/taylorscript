@@ -249,7 +249,32 @@ class Parser {
             return new Expr.Unary(operator, right);
         }
 
-        return primary();
+        return call();
+    }
+
+    private Expr finishCall(Expr callee) {
+        List<Expr> arguments = new ArrayList<>();
+        if (!check(RIGHT_BRACKET)) {  // square(a, b, c)
+            do {
+                if (arguments.size() >= 255) {
+                    error(peek(), "The number of arguments exceeded the maximum limit (255).");
+                }
+                arguments.add(expression());
+            } while (match(COMMA));
+        }
+        Token bracket = consume(RIGHT_BRACKET, "Expect ']' after arguments.");
+        return new Expr.Call(callee, bracket, arguments);
+    }
+
+    private Expr call() {
+        Expr expr = primary();
+
+        while (true) {
+            if (match(LEFT_BRACKET)) expr = finishCall(expr);
+            else break;
+        }
+
+        return expr;
     }
 
     private Expr primary() {

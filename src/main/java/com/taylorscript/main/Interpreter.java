@@ -1,5 +1,6 @@
 package com.taylorscript.main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class Interpreter implements Expr.Visitor<Object>, Statement.Visitor<Void> {
@@ -228,5 +229,29 @@ class Interpreter implements Expr.Visitor<Object>, Statement.Visitor<Void> {
         }
 
         return null;
+    }
+
+    @Override
+    public Object visitCallExpr(Expr.Call expr) {
+        Object callee = evaluate(expr.callee);
+
+        List<Object> args = new ArrayList<>();
+        for (Expr arg : expr.args) {
+            args.add(evaluate(arg));
+        }
+
+        if (!(callee instanceof TSCallable)) {
+            throw new RuntimeError(expr.bracket, "Can only call functions.");
+        }
+
+        TSCallable function = (TSCallable)callee;
+
+        // arity: number of args the functions/operators expects
+        if (args.size() != function.arity()) { 
+            throw new RuntimeError(expr.bracket, "Expected " +
+                                   function.arity() + " arguments but got " +
+                                   args.size() + ".");
+        }
+        return function.call(this, args);
     }
 }
