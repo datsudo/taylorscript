@@ -43,6 +43,7 @@ class Parser {
     private Statement statement() {
         if (match(IF)) return ifStatement();
         if (match(PRINT)) return printStatement();
+        if (match(RETURN)) return returnStatement();
         if (match(LOOP)) return loopStatement();
         if (match(LEFT_BRACKET)) return new Statement.Block(block());
 
@@ -71,6 +72,16 @@ class Parser {
         consume(SEMICOLON, "Expect ';' after value.");
 
         return new Statement.Print(value);
+    }
+
+    private Statement returnStatement() {
+        Token keyword = previous();
+        Expr value = null;
+        if (!check(SEMICOLON)) {
+            value = expression();
+        }
+        consume(SEMICOLON, "Expect ';' after return value.");
+        return new Statement.Return(keyword, value);
     }
 
     private Statement varDeclaration() {
