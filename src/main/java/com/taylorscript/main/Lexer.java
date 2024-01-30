@@ -122,7 +122,7 @@ public class Lexer {
                 else addToken(MINUS);
                 break;
 
-            case '*': addToken(matchNextChar('=') ? START_EQ : STAR); break;
+            case '*': addToken(matchNextChar('=') ? STAR_EQ : STAR); break;
 
             case ' ':
             case '\r':

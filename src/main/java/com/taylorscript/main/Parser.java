@@ -187,13 +187,13 @@ class Parser {
     private Expr assignment() {
         Expr expr = or();
 
-        if (match(ASSIGN_EQUAL)) {
+        if (match(ASSIGN_EQUAL, PLUS_EQ, MINUS_EQ, STAR_EQ, SLASH_EQ)) {
             Token equals = previous();
             Expr value = assignment();
 
             if (expr instanceof Expr.Variable) {
                 Token name = ((Expr.Variable)expr).name;
-                return new Expr.Assign(name, value);
+                return new Expr.Assign(name, value, equals);
             }
 
             error(equals, "Invalid assignment target.");

@@ -15,9 +15,10 @@ abstract class Expr {
     }
 
     static class Assign extends Expr {
-        Assign(Token name, Expr value) {
+        Assign(Token name, Expr value, Token equals) {
             this.name = name;
             this.value = value;
+            this.equals = equals;
         }
 
         @Override
@@ -27,6 +28,7 @@ abstract class Expr {
 
         final Token name;
         final Expr value;
+        final Token equals;
     }
 
     static class Binary extends Expr {
