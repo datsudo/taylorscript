@@ -13,9 +13,9 @@ fi
 if [[ $ARG1 == "-ast" ]]; then
     java -cp "$CP" com.taylorscript.tool.GenerateAst "$MAIN_PATH"
     exit 0
-else
+elif [[ ! (-z $ARG1) ]]; then
     java -cp "$CP" com.taylorscript.main.TaylorScript "$ARG1"
     exit 0
+else
+    java -cp "$CP" com.taylorscript.main.TaylorScript   
 fi
-
-java -cp "$CP" com.taylorscript.main.TaylorScript
