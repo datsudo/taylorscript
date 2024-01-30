@@ -9,6 +9,7 @@ abstract class Statement {
         R visitFunctionStatement(Function statement);
         R visitIfStatement(If statement);
         R visitPrintStatement(Print statement);
+        R visitReturnStatement(Return statement);
         R visitLetStatement(Let statement);
         R visitWhileStatement(While statement);
     }
@@ -84,6 +85,21 @@ abstract class Statement {
         }
 
         final Expr expression;
+    }
+
+    static class Return extends Statement {
+        Return(Token keyword, Expr value) {
+            this.keyword = keyword;
+            this.value = value;
+        }
+
+        @Override
+        <R> R accept(Visitor<R> visitor) {
+            return visitor.visitReturnStatement(this);
+        }
+
+        final Token keyword;
+        final Expr value;
     }
 
     static class Let extends Statement {
