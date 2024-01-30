@@ -6,6 +6,7 @@ abstract class Statement {
     interface Visitor<R> {
         R visitBlockStatement(Block statement);
         R visitExpressionStatement(Expression statement);
+        R visitFunctionStatement(Function statement);
         R visitIfStatement(If statement);
         R visitPrintStatement(Print statement);
         R visitLetStatement(Let statement);
@@ -36,6 +37,23 @@ abstract class Statement {
         }
 
         final Expr expression;
+    }
+
+    static class Function extends Statement {
+        Function(Token name, List<Token> params, List<Statement> body) {
+            this.name = name;
+            this.params = params;
+            this.body = body;
+        }
+
+        @Override
+        <R> R accept(Visitor<R> visitor) {
+            return visitor.visitFunctionStatement(this);
+        }
+
+        final Token name;
+        final List<Token> params;
+        final List<Statement> body;
     }
 
     static class If extends Statement {

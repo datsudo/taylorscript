@@ -31,6 +31,7 @@ class Parser {
 
     private Statement declaration() {
         try {
+            if (match(FUNC)) return function();
             if (match(VAR)) return varDeclaration();
             return statement();
         } catch (ParseError error) {
@@ -137,6 +138,28 @@ class Parser {
         Expr expr = expression();
         consume(SEMICOLON, "Expect ';' after expression.");
         return new Statement.Expression(expr);
+    }
+
+    private Statement.Function function() {
+        Token name = consume(IDENT, "Expect function name.");
+
+        consume(LEFT_BRACKET, "Expect '[' after function name.");
+        List<Token> params = new ArrayList<>();
+        if (!check(RIGHT_BRACKET)) {
+            do {
+                if (params.size() >= 255) {
+                    error(peek(), "The number of arguments exceeded the maximum limit (255).");
+                }
+
+                params.add(consume(IDENT, "Expect parameter name."));
+            } while (match(COMMA));
+        }
+
+        consume(RIGHT_BRACKET, "Expect ']' after paremeters.");
+        
+        consume(LEFT_BRACKET, "Expect '[' before function body.");
+        List<Statement> body = block();
+        return new Statement.Function(name, params, body);
     }
 
     private List<Statement> block() {
