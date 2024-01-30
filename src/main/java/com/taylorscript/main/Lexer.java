@@ -73,20 +73,20 @@ public class Lexer {
         // parse individual token
         char c = advance();
         switch (c) {
-            case '(': addToken(LEFT_PAREN); break;
-            case ')': addToken(RIGHT_PAREN); break;
-            case '{': addToken(LEFT_BRACE); break;
-            case '}': addToken(RIGHT_BRACE); break;
-            case '[': addToken(LEFT_BRACKET); break;
+            case '(': addToken(LEFT_PAREN   ); break;
+            case ')': addToken(RIGHT_PAREN  ); break;
+            case '{': addToken(LEFT_BRACE   ); break;
+            case '}': addToken(RIGHT_BRACE  ); break;
+            case '[': addToken(LEFT_BRACKET ); break;
             case ']': addToken(RIGHT_BRACKET); break;
-            case '+': addToken(PLUS     ); break;
-            case '/': addToken(SLASH    ); break;
-            case ',': addToken(COMMA    ); break;
-            case '.': addToken(DOT      ); break;
-            case ';': addToken(SEMICOLON); break;
-            case ':': addToken(COLON    ); break;
-            case '%': addToken(PCENT    ); break;
+            case ',': addToken(COMMA        ); break;
+            case '.': addToken(DOT          ); break;
+            case ';': addToken(SEMICOLON    ); break;
+            case ':': addToken(COLON        ); break;
+            case '%': addToken(PCENT        ); break;
 
+            case '/': addToken(matchNextChar('=') ? SLASH_EQ : SLASH); break;
+            case '+': addToken(matchNextChar('=') ? PLUS_EQ : PLUS); break;
             case '!': addToken(matchNextChar('=') ? NOT_EQUAL : LOGICAL_NOT); break;
             case '=': addToken(matchNextChar('=') ? COMP_EQUAL : ASSIGN_EQUAL); break;
             case '<': addToken(matchNextChar('=') ? LESS_THAN_EQ : LESS_THAN); break;
@@ -116,10 +116,13 @@ public class Lexer {
                         }
                         advance();
                     }
-                } else addToken(MINUS);
+                } else if (matchNextChar('=')) {
+                    addToken(MINUS_EQ);
+                }
+                else addToken(MINUS);
                 break;
 
-            case '*': addToken(STAR); break;
+            case '*': addToken(matchNextChar('=') ? START_EQ : STAR); break;
 
             case ' ':
             case '\r':
