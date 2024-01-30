@@ -271,6 +271,9 @@ class Interpreter implements Expr.Visitor<Object>, Statement.Visitor<Void> {
             case STAR:
                 checkNumberOperands(expr.operator, left, right);
                 return (double)left * (double)right;
+            case CARET:
+                checkNumberOperands(expr.operator, left, right);
+                return Math.pow((double) left, (double) right);
         }
 
         return null;

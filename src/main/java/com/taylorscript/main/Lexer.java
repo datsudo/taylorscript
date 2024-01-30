@@ -84,6 +84,7 @@ public class Lexer {
             case ';': addToken(SEMICOLON    ); break;
             case ':': addToken(COLON        ); break;
             case '%': addToken(PCENT        ); break;
+            case '^': addToken(CARET        ); break;
 
             case '/': addToken(matchNextChar('=') ? SLASH_EQ : SLASH); break;
             case '+': addToken(matchNextChar('=') ? PLUS_EQ : PLUS); break;

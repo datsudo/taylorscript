@@ -264,12 +264,23 @@ class Parser {
     }
 
     private Expr factor() {
-        Expr expr = unary();
+        Expr expr = exponent();
 
         while (match(SLASH, STAR)) {
             Token operator = previous();
-            Expr right = unary();
+            Expr right = exponent();
             expr = new Expr.Binary(expr, operator, right);
+        }
+
+        return expr;
+    }
+
+    private Expr exponent() {
+        Expr expr = unary();
+        if (match(CARET)) {
+            Token operator = previous();
+            Expr right = unary();
+            return new Expr.Binary(expr, operator, right);
         }
 
         return expr;
