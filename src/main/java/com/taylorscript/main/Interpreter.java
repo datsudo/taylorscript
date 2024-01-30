@@ -182,6 +182,14 @@ class Interpreter implements Expr.Visitor<Object>, Statement.Visitor<Void> {
     }
 
     @Override
+    public Void visitReturnStatement(Statement.Return statement) {
+        Object value = null;
+        if (statement.value != null) value = evaluate(statement.value);
+
+        throw new Return(value);
+    }
+
+    @Override
     public Void visitLetStatement(Statement.Let statement) {
         Object value = null;
         if (statement.initializer != null) {
