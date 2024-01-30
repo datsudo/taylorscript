@@ -7,21 +7,6 @@ class Interpreter implements Expr.Visitor<Object>, Statement.Visitor<Void> {
     final Environment globals = new Environment();
     private Environment environment = globals;
 
-    Interpreter() {
-        globals.define("clock", TSCallable() {
-            @Override
-            public int arity() { return 0; }
-
-            @Override
-            public Object call(Interpreter interpreter, List<Object> args) {
-                return (double)System.currentTimeMillis() / 1000.0;
-            }
-
-            @Override
-            public String toString() { return "<native fn>"; }
-        });
-    }
-
     void interpret(List<Statement> statements) {
         try {
             for (Statement statement : statements) {
@@ -168,6 +153,13 @@ class Interpreter implements Expr.Visitor<Object>, Statement.Visitor<Void> {
     @Override
     public Void visitExpressionStatement(Statement.Expression statement) {
         evaluate(statement.expression);
+        return null;
+    }
+
+    @Override
+    public Void visitFunctionStatement(Statement.Function statement) {
+        TSFunction function = new TSFunction(statement);
+        environment.define(statement.name.lexeme, function);
         return null;
     }
 
