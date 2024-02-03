@@ -27,12 +27,7 @@ mvn -v
 ```
 
 ### Build commands
-Install all the necessaary plugins with:
-```shell
-mvn clean install
-```
-
-Then we initialize first the project to include all the external `.jar`
+**[Only for `part1-lexer` branch]** We initialize first the project to include all the external `.jar`
 files or plugins:
 ```shell
 mvn initialize
@@ -47,16 +42,10 @@ mvn compile
 ## Run the program
 - The program optionally accepts one parameter: a TaylorScript
   file (ends with `.tay` file).
-- Without parameters, the program will provide you an **interactive
+- Without parameter, the program will provide you an **interactive
   shell** (also called **REPL** - read-eval-print loop), where you can quickly
   run simple expressions and get immediate results
-- As of the moment, there are two branches in this repository:
-  `part1-lexer` and `feature-parser`.
-- In `part1-lexer`, the program only outputs all the scanned tokens in
-  an expression or a source file
-- `feature-parser` currently only recognizes arithmetic operations; it outputs
-the expression in [Polish Notation](https://en.wikipedia.org/wiki/Polish_notation) to easily recognize the order
-of precedence.
+- The REPL only accepts single one-line statements. To run simple control flow and functions, put it in `.tay` file and run it instead
 
 To run the REPL with `java`:
 ```shell
