@@ -42,6 +42,7 @@ class Parser {
 
     private Statement statement() {
         if (match(IF)) return ifStatement();
+        if (match(ELIF)) return ifStatement();
         if (match(PRINT)) return printStatement();
         if (match(RETURN)) return returnStatement();
         if (match(LOOP)) return loopStatement();
