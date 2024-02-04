@@ -1,4 +1,8 @@
 <div align="center">
+    <img
+      src="./assets/taylorscript-logo.png"
+      alt="TaylorScript Logo"
+      width="200" />
     <h1>TaylorScript</h1>
 </div>
 
@@ -12,7 +16,7 @@
 
 ### Prerequisites
 The following prerequisites are:
-- Java 17 SDK
+- Java 17+ SDK
 - [Maven](https://maven.apache.org/download.cgi)
 
 To check if they're properly installed, run the
@@ -51,9 +55,13 @@ To run the REPL with `java`:
 ```shell
 # In Windows CMD/Powershell:
 java -cp "target\classes;lib\*" com.taylorscript.main.TaylorScript
+# For part1-lexer branch, we need to include external JAR
+java -cp "target\classes;lib\*" com.taylorscript.main.TaylorScript
 
 # In Linux (uses colon instead semicolon):
-java -cp "target/classes:lib/*" com.taylorscript.main.TaylorScript
+java -cp "target/classes" com.taylorscript.main.TaylorScript
+# For part1-lexer:
+java -cp "target/classes:lib\*" com.taylorscript.main.TaylorScript
 ```
 
 To simplify this:
