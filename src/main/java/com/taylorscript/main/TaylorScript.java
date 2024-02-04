@@ -1,7 +1,5 @@
 package com.taylorscript.main;
 
-import org.sk.PrettyTable;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -61,37 +59,22 @@ public class TaylorScript {
         List<Statement> statements = parser.parse();
 
         if (hadError) return;
-
-//        System.out.println(new AstPrinter().print(expression));
-        interpreter.interpret(statements);
     }
 
-    private static void printTokenTable(List<Token> tokens) {
-        PrettyTable tokenTable = new PrettyTable("TOKEN", "LEXEME", "LITERAL");
-        for (Token token: tokens) {
-            String literal = "";
-            if (token.literal != null) {
-                literal = token.literal + "";
-            }
-            tokenTable.addRow(token.type + "", token.lexeme, literal);
-        }
-        System.out.println(tokenTable);
+    static void error(int lineNumber, int colNumber, String message) {
+        report(lineNumber, colNumber, "", message);
     }
 
-    static void error(int lineNumber, String message) {
-        report(lineNumber, "", message);
-    }
-
-    private static void report(int lineNumber, String where, String message) {
-        System.err.println("[LINE " + lineNumber + "] Error" + where + ": " + message);
+    private static void report(int lineNumber, int colNumber, String where, String message) {
+        System.err.println("[LINE " + lineNumber + "; COLUMN " + colNumber + "] Error" + where + ": " + message);
         hadError = true;
     }
 
     static void error(Token token, String message) {
         if (token.type == TokenType.EOF) {
-            report(token.lineNumber, "at end", message);
+            report(token.lineNumber, token.colNumber, " at end", message);
         } else {
-            report(token.lineNumber, " at '" + token.lexeme + "'", message);
+            report(token.lineNumber, token.colNumber, " at '" + token.lexeme + "'", message);
         }
     }
 

@@ -19,6 +19,7 @@ public class Lexer {
     private int start = 0;
     private int current = 0;
     private int lineNumber = 1;
+    private int colNum = 0;
     private int prevStart;
     private int prevCurrent;
     private int prevLineNumber;
@@ -65,7 +66,7 @@ public class Lexer {
             scanToken();
         }
 
-        tokens.add(new Token(EOF, "", null, lineNumber));
+        tokens.add(new Token(EOF, "", null, lineNumber, colNum));
         return tokens;
     }
 
@@ -107,12 +108,15 @@ public class Lexer {
                     // '-*' starts a multiline comment and ends with '*-'
                     boolean isInComment = true;
                     while (isInComment) {
-                        if (peek() == '\n') this.lineNumber++;
+                        if (peek() == '\n') {
+                            this.colNum = 0;
+                            this.lineNumber++;
+                        }
                         if (peek() == '*' && peekNext() == '-') {
                             advance(); isInComment = false;
                         }
                         if (peek() == '\0') {
-                            TaylorScript.error(lineNumber, "Unterminated multiline comment");
+                            TaylorScript.error(lineNumber, colNum, "Unterminated multiline comment");
                             break;
                         }
                         advance();
@@ -131,6 +135,7 @@ public class Lexer {
                 break;
 
             case '\n':
+                colNum = 0;
                 lineNumber++;
                 break;
 
@@ -143,7 +148,7 @@ public class Lexer {
                     advance();
                 }
                 else if (isAlpha(c)) identifier();
-                else TaylorScript.error(lineNumber, "Unexpected character.");
+                else TaylorScript.error(lineNumber, colNum, "Unexpected character.");
                 break;
         }
     }
@@ -185,7 +190,7 @@ public class Lexer {
             t++;
         }
         if (isAtEnd() || (peekNext() != '"' && source.charAt(current) != '[')) {
-            TaylorScript.error(lineNumber, "Tailor keyword cannot be used as identifier.");
+            TaylorScript.error(lineNumber, colNum, "Tailor keyword cannot be used as identifier.");
         }
         return true;
     }
@@ -208,7 +213,7 @@ public class Lexer {
     private void string() throws IOException {
         consumeString();
         if (isAtEnd()) {
-            TaylorScript.error(lineNumber, "Unterminated string.");
+            TaylorScript.error(lineNumber, colNum, "Unterminated string.");
             return;
         }
         advance();
@@ -220,7 +225,7 @@ public class Lexer {
             advance();
 
             if (!new File(value + ".lor").isFile()) {
-                TaylorScript.error(lineNumber, "Fragment code doesn't exist.");
+                TaylorScript.error(lineNumber, colNum, "Fragment code doesn't exist.");
                 return;
             }
 
@@ -242,6 +247,7 @@ public class Lexer {
         while (peek() != '"' && !isAtEnd()) {
             if (peek() == '\n') {
                 lineNumber++;
+                colNum = 0;
             }
             advance();
         }
@@ -252,6 +258,7 @@ public class Lexer {
         if (isAtEnd()) return false;
         if (source.charAt(current) != expected) return false;
 
+        colNum++;
         current++;
         return true;
     }
@@ -290,6 +297,7 @@ public class Lexer {
     }
 
     private char advance() {
+        colNum++;
         current++;
         return source.charAt(current - 1);
     }
@@ -301,6 +309,6 @@ public class Lexer {
     private void addToken(TokenType type, Object literal) {
         // this overload method is for tokens with literal values
         String text = source.substring(start, current);
-        tokens.add(new Token(type, text, literal, lineNumber));
+        tokens.add(new Token(type, text, literal, lineNumber, colNum));
     }
 }
