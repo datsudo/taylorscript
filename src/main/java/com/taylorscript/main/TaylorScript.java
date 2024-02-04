@@ -9,8 +9,6 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class TaylorScript {
-    static boolean hadError = false;
-
     public static void main(String[] args) throws IOException {
         if (args.length > 1) {
             System.out.println("USAGE: taylorscript [script]");
@@ -29,8 +27,6 @@ public class TaylorScript {
         }
         byte[] bytes = Files.readAllBytes(Paths.get(filePath));
         run(new String(bytes, Charset.defaultCharset()));
-
-        if (hadError) System.exit(65);
     }
 
     private static void runPrompt() throws IOException {
@@ -45,7 +41,6 @@ public class TaylorScript {
                 break;
             }
             run(line);
-            hadError = false;
         }
     }
 
@@ -53,9 +48,7 @@ public class TaylorScript {
         Lexer lexer = new Lexer(source);
         List<Token> tokens = lexer.scanTokens();
         Parser parser = new Parser(tokens);
-        List<Statement> statements = parser.parse();
-
-        if (hadError) return;
+        parser.parse();
     }
 
     static void error(int lineNumber, int colNumber, String message) {
@@ -64,7 +57,7 @@ public class TaylorScript {
 
     private static void report(int lineNumber, int colNumber, String where, String message) {
         System.err.println("[LINE " + lineNumber + "; COLUMN " + colNumber + "] Error" + where + ": " + message);
-        hadError = true;
+        System.exit(65);
     }
 
     static void error(Token token, String message) {
