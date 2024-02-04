@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 ARG1="$1"
-CP="target/classes:lib/*"
+CP="target/classes"
 MAIN_PATH="src/main/java/com/taylorscript/main/"
 
 if [[ $ARG1 == "-cmp" ]]; then
@@ -10,10 +10,7 @@ if [[ $ARG1 == "-cmp" ]]; then
 fi
 
 
-if [[ $ARG1 == "-ast" ]]; then
-    java -cp "$CP" com.taylorscript.tool.GenerateAst "$MAIN_PATH"
-    exit 0
-elif [[ ! (-z $ARG1) ]]; then
+if [[ ! (-z $ARG1) ]]; then
     java -cp "$CP" com.taylorscript.main.TaylorScript "$ARG1"
     exit 0
 else
