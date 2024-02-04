@@ -9,9 +9,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class TaylorScript {
-    private static final Interpreter interpreter = new Interpreter();
     static boolean hadError = false;
-    static boolean hadRuntimeError = false;
 
     public static void main(String[] args) throws IOException {
         if (args.length > 1) {
@@ -33,7 +31,6 @@ public class TaylorScript {
         run(new String(bytes, Charset.defaultCharset()));
 
         if (hadError) System.exit(65);
-        if (hadRuntimeError) System.exit(70);
     }
 
     private static void runPrompt() throws IOException {
@@ -76,10 +73,5 @@ public class TaylorScript {
         } else {
             report(token.lineNumber, token.colNumber, " at '" + token.lexeme + "'", message);
         }
-    }
-
-    static void runtimeError(RuntimeError error) {
-        System.err.println("[LINE " + error.token.lineNumber + "] " + error.getMessage());
-        hadRuntimeError = true;
     }
 }
