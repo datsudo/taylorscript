@@ -178,7 +178,7 @@ class Parser {
         if (!check(RIGHT_BRACKET)) {
             do {
                 if (params.size() >= 255) {
-                    error(peek(), "The number of arguments exceeded the maximum limit (255).");
+                    throw error(peek(), "The number of arguments exceeded the maximum limit (255).");
                 }
 
                 params.add(consume(IDENT, "Expect parameter name."));
@@ -215,7 +215,7 @@ class Parser {
                 return new Expr.Assign(name, value, equals);
             }
 
-            error(equals, "Invalid assignment target.");
+            throw error(equals, "Invalid assignment target.");
         }
 
         return expr;
@@ -321,7 +321,7 @@ class Parser {
         if (!check(RIGHT_BRACKET)) {  // square(a, b, c)
             do {
                 if (arguments.size() >= 255) {
-                    error(peek(), "The number of arguments exceeded the maximum limit (255).");
+                    throw error(peek(), "The number of arguments exceeded the maximum limit (255).");
                 }
                 arguments.add(expression());
             } while (match(COMMA));
