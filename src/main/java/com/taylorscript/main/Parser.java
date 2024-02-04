@@ -42,7 +42,6 @@ class Parser {
 
     private Statement statement() {
         if (match(IF)) return ifStatement();
-        if (match(ELIF)) return ifStatement();
         if (match(PRINT)) return printStatement();
         if (match(RETURN)) return returnStatement();
         if (match(LOOP)) return loopStatement();
@@ -59,7 +58,26 @@ class Parser {
         Statement thenBranch = statement();
         Statement elseBranch = null;
 
-        if (match(ELSE)) {
+        if (match(ELIF)) {
+            return elifStatement();
+        } else if (match(ELSE)) {
+            elseBranch = statement();
+        }
+
+        return new Statement.If(condition, thenBranch, elseBranch);
+    }
+
+    private Statement elifStatement() {
+        consume(LEFT_BRACKET, "Expect '[' after 'Then'.");
+        Expr condition = expression();
+        consume(RIGHT_BRACKET, "Expect ']' after 'Then' condition.");
+
+        Statement thenBranch = statement();
+        Statement elseBranch = null;
+
+        if (match(ELIF)) {
+            return elifStatement();
+        } else if (match(ELSE)) {
             elseBranch = statement();
         }
 
