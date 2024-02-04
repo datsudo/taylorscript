@@ -306,7 +306,6 @@ class Parser {
     }
 
     private Expr unary() {
-        // unary -> ( "!" | "-" ) unary | primary
         if (match(LOGICAL_NOT, MINUS)) {
             Token operator = previous();
             Expr right = unary();
@@ -318,7 +317,7 @@ class Parser {
 
     private Expr finishCall(Expr callee) {
         List<Expr> arguments = new ArrayList<>();
-        if (!check(RIGHT_BRACKET)) {  // square(a, b, c)
+        if (!check(RIGHT_BRACKET)) {
             do {
                 if (arguments.size() >= 255) {
                     throw error(peek(), "The number of arguments exceeded the maximum limit (255).");
