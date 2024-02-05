@@ -41,11 +41,8 @@ public class TaylorScript {
         for (;;) {
             System.out.print("->> ");
             String line = reader.readLine();
-            if (line == null) {
-                break;
-            }
+            if (line == null) break;
             run(line);
-            System.out.println();
             hadError = false;
         }
     }
@@ -62,7 +59,7 @@ public class TaylorScript {
     }
 
     private static void report(int lineNumber, int colNumber, String where, String message) {
-        System.err.println("\n[LINE " + lineNumber + "; COLUMN " + colNumber + "] Error" + where + ": " + message);
+        System.err.print("\n[LINE " + lineNumber + "; COLUMN " + colNumber + "] Error" + where + ": " + message);
         hadError = true;
     }
 
