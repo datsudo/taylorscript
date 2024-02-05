@@ -2,7 +2,6 @@
 
 ARG1="$1"
 CP="target/classes"
-MAIN_PATH="src/main/java/com/taylorscript/main/"
 
 if [[ $ARG1 == "-cmp" ]]; then
     mvn compile
