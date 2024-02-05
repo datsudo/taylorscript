@@ -35,7 +35,7 @@ class Parser {
             if (match(VAR)) return varDeclaration();
             return statement();
         } catch (ParseError error) {
-            synchronize();
+            current = tokens.size() - 1;
             return null;
         }
     }
@@ -408,23 +408,5 @@ class Parser {
     private ParseError error(Token token, String message) {
         TaylorScript.error(token, message);
         return new ParseError();
-    }
-
-    private void synchronize() {
-        advance();
-
-        while (!isAtEnd()) {
-            if (previous().type == SEMICOLON) return;
-            switch (peek().type) {
-                case FUNC:
-                case LOOP:
-                case VAR:
-                case IF:
-                case PRINT:
-                case RETURN:
-                    return;
-            }
-            advance();
-        }
     }
 }
