@@ -16,13 +16,10 @@ class Parser {
         this.tokens = tokens;
     }
 
-    List<Statement> parse() {
-        List<Statement> statements = new ArrayList<>();
+    void parse() {
         while (!isAtEnd()) {
-            statements.add(declaration());
+            declaration();
         }
-
-        return statements;
     }
 
     private Expr expression() {
