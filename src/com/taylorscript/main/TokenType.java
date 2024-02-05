@@ -29,7 +29,7 @@ enum TokenType {
     IF, ELSE, ELIF,  // control
     TRY, CATCH,  // exception handling
     SWITCH, CASE, DEFAULT,  // switch-case
-    PRINT, BREAK, RETURN, CLEAR,  // etc
+    PRINT, RETURN, CLEAR,  // etc
     VAR,
     INPUT,
 
