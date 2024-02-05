@@ -1,7 +1,6 @@
 @ECHO off
 SET /p runOpt="Run a script file [insert filepath]: "
 
-call mvn compile
 call cls
 
 IF %runOpt%==r (
