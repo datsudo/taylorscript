@@ -99,16 +99,9 @@ class Parser {
     private Statement loopStatement() {
         consume(LEFT_BRACKET, "Expect '[' after 'AllTooWhile'.");
 
-        if (check(SEMICOLON)) {
-            advance();
-            return forStatement(null);
-        } else if (check(VAR)) {
-            advance();
-            return forStatement(varDeclaration());
-        } else {
-            return whileStatement();
-        }
-
+        if (match(SEMICOLON)) return forStatement(null);
+        if (match(VAR)) return forStatement(varDeclaration());
+        return whileStatement();
     }
 
     private Statement whileStatement() {

@@ -59,7 +59,7 @@ public class TaylorScript {
     }
 
     private static void report(int lineNumber, int colNumber, String where, String message) {
-        System.err.print("\n[LINE " + lineNumber + "; COLUMN " + colNumber + "] Error" + where + ": " + message);
+        System.err.println("[LINE " + lineNumber + "; COLUMN " + colNumber + "] Error" + where + ": " + message);
         hadError = true;
     }
 
