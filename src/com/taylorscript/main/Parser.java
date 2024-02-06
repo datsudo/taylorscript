@@ -38,42 +38,26 @@ class Parser {
     }
 
     private Statement statement() {
-        if (match(IF)) return ifStatement();
+        if (match(IF)) return ifStatement(previous().lexeme);
         if (match(PRINT)) return printStatement();
         if (match(RETURN)) return returnStatement();
         if (match(LOOP)) return loopStatement();
+        if (match(SWITCH)) return switchStatement();
         if (match(LEFT_BRACKET)) return new Statement.Block(block());
 
         return expressionStatement();
     }
 
-    private Statement ifStatement() {
-        consume(LEFT_BRACKET, "Expect '[' after 'When'.");
+    private Statement ifStatement(String keyword) {
+        consume(LEFT_BRACKET, "Expect '[' after '" + keyword + "'.");
         Expr condition = expression();
-        consume(RIGHT_BRACKET, "Expect ']' after 'When' condition.");
+        consume(RIGHT_BRACKET, "Expect ']' after '" + keyword + "' condition.");
 
         Statement thenBranch = statement();
         Statement elseBranch = null;
 
         if (match(ELIF)) {
-            return elifStatement();
-        } else if (match(ELSE)) {
-            elseBranch = statement();
-        }
-
-        return new Statement.If(condition, thenBranch, elseBranch);
-    }
-
-    private Statement elifStatement() {
-        consume(LEFT_BRACKET, "Expect '[' after 'Then'.");
-        Expr condition = expression();
-        consume(RIGHT_BRACKET, "Expect ']' after 'Then' condition.");
-
-        Statement thenBranch = statement();
-        Statement elseBranch = null;
-
-        if (match(ELIF)) {
-            return elifStatement();
+            return ifStatement(previous().lexeme);
         } else if (match(ELSE)) {
             elseBranch = statement();
         }
@@ -161,6 +145,44 @@ class Parser {
         return body;
     }
 
+    private Statement switchStatement() {
+        consume(LEFT_BRACKET, "Expect '[' before expression.");
+        Expr expr = expression();
+        consume(RIGHT_BRACKET, "Expect ']' after expression.");
+
+        List<Statement.Case> cases = new ArrayList<>();
+
+        consume(LEFT_BRACKET, "Expect '[' before cases.");
+        while (!check(RIGHT_BRACKET) && !isAtEnd()) {
+            if (match(CASE)) cases.add(caseBlock(CASE));
+            else if (match(DEFAULT)) cases.add(caseBlock(DEFAULT));
+            else break;
+        }
+
+        if (cases.isEmpty() || cases.get(cases.size() - 1).caseType != DEFAULT) {
+            throw error(peek(), "Switch case should have at least a default case.");
+        }
+
+        consume(RIGHT_BRACKET, "Expect ']' after cases.");
+
+        return new Statement.SwitchCase(expr, cases);
+    }
+
+    private Statement.Case caseBlock(TokenType caseType) {
+        Expr checkVal = null;
+        if (caseType == CASE) {
+            consume(LEFT_BRACKET, "Expect '[' before expression.");
+            checkVal = expression();
+            consume(RIGHT_BRACKET, "Expect ']' after expression.");
+        }
+        consume(COLON, "Expect ':' after expression or Closure.");
+        List<Statement> statements;
+        consume(LEFT_BRACKET, "Expect '[' before case block.");
+        statements =  block();
+
+        return new Statement.Case(caseType, checkVal, statements);
+    }
+
     private Statement expressionStatement() {
         Expr expr = expression();
         consume(SEMICOLON, "Expect ';' after expression.");
@@ -242,7 +264,6 @@ class Parser {
     }
 
     private Expr equality() {
-        // equality -> comparison ( ( "!=" | "==" ) comparison )*
         Expr expr = comparison();
 
         while (match(NOT_EQUAL, COMP_EQUAL)) {
@@ -255,7 +276,6 @@ class Parser {
     }
 
     private Expr comparison() {
-        // comparison -> term ( ( ">" | ">=" | "<" | "<=" ) term )*
         Expr expr = term();
 
         while (match(GREATER_THAN, GREATER_THAN_EQ, LESS_THAN, LESS_THAN_EQ)) {

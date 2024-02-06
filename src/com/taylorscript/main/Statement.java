@@ -80,4 +80,26 @@ abstract class Statement {
         final Expr condition;
         final Statement body;
     }
+
+    static class Case extends Statement {
+        Case(TokenType caseType, Expr expr, List<Statement> statements) {
+            this.caseType = caseType;
+            this.expr = expr;
+            this.statements = statements;
+        }
+
+        final TokenType caseType;
+        final Expr expr;
+        final List<Statement> statements;
+    }
+
+    static class SwitchCase extends Statement {
+        SwitchCase(Expr expr, List<Statement.Case> cases) {
+            this.expr = expr;
+            this.cases = cases;
+        }
+
+        final Expr expr;
+        final List<Statement.Case> cases;
+    }
 }
